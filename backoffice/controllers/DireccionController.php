@@ -56,7 +56,10 @@ if($requestMethod == 'POST') {
     }
 
     if (isset($_POST['_method']) && $_POST['_method'] == 'put') {
-        //update
+        $id = $_GET['id'];
+        $resp = $direccionManager -> update($id_cliente, $nif, $razon_social, $es_empresa, $direccion1, $direccion2, $codigo_postal, $provincia, $localidad, $telefono, $id);
+
+        echo json_encode($resp);
     } else {
         $resp = $direccionManager -> insert($id_cliente, $nif, $razon_social, $es_empresa, $direccion1, $direccion2, $codigo_postal, $provincia, $localidad, $telefono);
 
@@ -64,6 +67,11 @@ if($requestMethod == 'POST') {
     }
 
 
+} else if($requestMethod == 'DELETE') {
+    $id = $_GET['id'];
+    $resp = $direccionManager -> delete($id);
+
+    echo json_encode($resp);
 }
 
 

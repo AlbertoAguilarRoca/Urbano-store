@@ -174,7 +174,7 @@ if($_SESSION['user']['permiso'] == '3') {
                 </div>
 
                 <div class="form-submit">
-                    <button class="form-cancel-btn"><a href="http://localhost/urban/backoffice/clientes/">Cancelar</a></button>
+                    <button class="form-cancel-btn"><a href="http://localhost/urban/backoffice/clientes/direcciones/">Cancelar</a></button>
                     <button class="form-submit-btn" type="submit">Añadir dirección</button>
                 </div>
 

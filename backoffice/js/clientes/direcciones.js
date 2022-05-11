@@ -22,17 +22,17 @@ formGroups.forEach((group) => {
     }
 
     lengthCount.innerText = `${input.value.length}/${input.getAttribute('maxlength')}`;
-        lenthCounterForm(group);
+    lenthCounterForm(group);
 });
 
-form.addEventListener('submit', async(e) => {
+form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    if(formValidation(form)) {
+    if (formValidation(form)) {
         console.log('Formulario valido');
         const formData = new FormData(form);
         const resp = await sendData(formData);
-        
+
         //Establece el contador de caracteres a 0
         resp && setLengthToInitial();
         setMessageInfo(resp, form);
@@ -45,9 +45,9 @@ form.addEventListener('submit', async(e) => {
 const sendData = async (formData) => {
     /* añado el id de la marca */
     const params = new URLSearchParams(document.location.search);
-    const id = params.get('id_cliente');
+    const id = params.get('id');
 
-    const resp = await fetch(`http://localhost/urban/backoffice/controllers/DireccionController.php?id_cliente=${id}`, {
+    const resp = await fetch(`http://localhost/urban/backoffice/controllers/DireccionController.php?id=${id}`, {
         method: 'POST',
         body: formData,
     });
@@ -58,6 +58,33 @@ const sendData = async (formData) => {
     return data;
 }
 
+if (formDelete) {
+    formDelete.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        if (formValidation(formDelete)) {
+            const params = new URLSearchParams(document.location.search);
+            const id = params.get('id');
+            const resp = await fetch(`http://localhost/urban/backoffice/controllers/DireccionController.php?id=${id}`, {
+                method: 'DELETE'
+            });
+
+            const data = await resp.json();
+
+            if (data === true) {
+                window.location = 'http://localhost/urban/backoffice/clientes/direcciones/';
+                console.log('Borrado correcto');
+            } else {
+                alert('Error al borrar: ' + data);
+            }
+
+        } else {
+            console.log('Email con errores.');
+        }
+
+    });
+}
+
 
 checkEmpresa.addEventListener('change', showFormCompany);
 
@@ -66,42 +93,75 @@ const getData = async (url) => {
     const peticion = await fetch(url, {
         method: 'GET'
     });
-    
+
     const data = await peticion.json();
-    
+
     return data.data;
 }
 
 const setProvinciasToSelect = async () => {
     const data = await getData(URL_PROVINCIAS);
-    
-    data.forEach( (city) => {
+
+    const ciudadSelect = (provincias.hasAttribute('data-selected')) ? provincias.getAttribute('data-selected') : null;
+
+    //Si hay una ciudad seleccionada, borro el contenido del select antes del forEach
+    if (ciudadSelect) provincias.innerHTML = '';
+
+    data.forEach((city) => {
         const { CPRO, PRO } = city;
         const cityName = capitalizarPrimeraLetra(PRO);
-        provincias.innerHTML += `<option data-cpro="${CPRO}" value="${cityName}">${cityName}</option>`;
-    });   
+
+        if (cityName === ciudadSelect) {
+            provincias.innerHTML += `<option selected data-cpro="${CPRO}" value="${cityName}">${cityName}</option>`;
+            localidad.setAttribute('data-selected', CPRO);
+        } else {
+            provincias.innerHTML += `<option data-cpro="${CPRO}" value="${cityName}">${cityName}</option>`;
+        }
+
+    });
 }
 
 const setLocalidades = async (value) => {
     const url = URL_MUNICIPIOS + `&CPRO=${value}`;
     const data = await getData(url);
-    localidad.innerHTML = '<option value="" selected disabled>-- Seleccionar localidad --</option>';
 
-    data.forEach( (mun) => {
+    //comparaciones para comprobar si estoy editando una direccion y ya hay un elemento seleccionado
+    const localidadSelect = (localidad.hasAttribute('data-selected-city')) ? localidad.getAttribute('data-selected-city') : null;
+
+    if (!localidadSelect) {
+        localidad.innerHTML = '<option value="" selected disabled>-- Seleccionar localidad --</option>';
+    }
+
+    data.forEach((mun) => {
 
         const { DMUN50 } = mun;
         const nombre = capitalizarPrimeraLetra(DMUN50);
 
-        localidad.innerHTML += `<option value="${nombre}">${nombre}</option>`;
+        if (nombre === localidadSelect) {
+            localidad.innerHTML += `<option selected value="${nombre}">${nombre}</option>`;
+        } else {
+            localidad.innerHTML += `<option value="${nombre}">${nombre}</option>`;
+        }
+
     });
 }
 
-setProvinciasToSelect();
+setProvinciasToSelect()
+    .then(() => {
+        (localidad.hasAttribute('data-selected')) && setLocalidades(localidad.getAttribute('data-selected'));
+    });
 
-provincias.addEventListener('change', async ({target}) => {
+
+//console.log(provincias.options[provincias.selectedIndex].text);
+
+provincias.addEventListener('change', async ({ target }) => {
+
+    localidad.removeAttribute('data-selected');
+    localidad.removeAttribute('data-selected-city');
+
     const select = target.options[target.selectedIndex];
     const cpro = select.getAttribute('data-cpro');
-    
+
     setLocalidades(cpro);
 
 });
@@ -121,7 +181,7 @@ function showFormCompany() {
 
     const formClientGroups = formCompany.querySelectorAll('.form-group');
 
-    if(checkEmpresa.checked) {
+    if (checkEmpresa.checked) {
         formCompany.classList.add('show-form');
         formClientGroups[0].setAttribute('data-required', 'true');
         formClientGroups[1].setAttribute('data-required', 'true');

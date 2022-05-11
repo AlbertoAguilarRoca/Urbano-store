@@ -10,4 +10,14 @@
         }
     }
 
+    function convertirEstado2($bool) {
+        if($bool == 1) {
+            return 'Si';
+        } else if($bool == 0) {
+            return 'No';
+        } else {
+            return 'Si';
+        }
+    }
+
 ?>
