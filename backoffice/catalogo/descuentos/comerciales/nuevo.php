@@ -131,9 +131,9 @@ if($_SESSION['user']['permiso'] == '3') {
         </div>
 
         <!-- condiciones de las reglas comerciales -->
-        <div class="conditions-included empty" id="condiciones">
+        <div class="conditions-included" id="condiciones_container">
 
-            <h2 class="comercial-rules-title">Grupo de condiciones <span id="conditions-length">(6)</span></h2>
+            <h2 class="comercial-rules-title">Grupo de condiciones <span id="conditions-length"></span></h2>
 
             <div class="content-description">
                 <p>Condiciones que has añadido a la regla comercial:</p>
@@ -143,38 +143,11 @@ if($_SESSION['user']['permiso'] == '3') {
                 <ul class="conditions-list-head">
                     <li>Tipo</li>
                     <li>Valor</li>
-                    <li></li>
+                    <li> </li>
                 </ul>
 
-                <ul class="conditions-list-body">
-                    <li data-condition-type="categoria">Categoría</li>
-                    <li data-condition-value="2">Accesorios</li>
-                    <li>
-                        <button class="btn-condition-delete">
-                            <i class="bi bi-x-lg"></i>
-                        </button>
-                    </li>
-                </ul>
-
-                <ul class="conditions-list-body">
-                    <li data-condition-type="categoria">Categoría</li>
-                    <li data-condition-value="2">Accesorios</li>
-                    <li>
-                        <button class="btn-condition-delete">
-                            <i class="bi bi-x-lg"></i>
-                        </button>
-                    </li>
-                </ul>
-
-                <ul class="conditions-list-body">
-                    <li data-condition-type="categoria">Categoría</li>
-                    <li data-condition-value="2">Accesorios</li>
-                    <li>
-                        <button class="btn-condition-delete">
-                            <i class="bi bi-x-lg"></i>
-                        </button>
-                    </li>
-                </ul>
+                <!-- aquí van las condiciones -->
+                <div id="conditions"></div>
 
             </div>
             
@@ -183,7 +156,7 @@ if($_SESSION['user']['permiso'] == '3') {
 
         <div class="comercial-rules-container">
 
-            <h2 class="comercial-rules-title">Condiciones</h2>
+            <h2 class="comercial-rules-title" id="titulo">Condiciones</h2>
 
             <div class="content-description">
                 <p>Aquí podrás añadir a la regla comercial todos los condicionantes que desees. Cuantos más condicionantes, a mayor número de productos afectará.</p>
@@ -208,7 +181,9 @@ if($_SESSION['user']['permiso'] == '3') {
                         <?php
                             for($i = 0; $i < $categorias -> num_rows; $i++) {
                                 $fila = $categorias -> fetch_assoc();
-                                echo "<option value='".$fila['id']."'>".$fila['nombre']."</option>";
+                                if($fila['id'] != '0') {
+                                    echo "<option value='".$fila['id']."'>".$fila['nombre']."</option>";
+                                }
                             }
                         ?>
                     </select>
@@ -229,7 +204,9 @@ if($_SESSION['user']['permiso'] == '3') {
                         <?php
                             for($i = 0; $i < $subcategorias -> num_rows; $i++) {
                                 $fila = $subcategorias -> fetch_assoc();
-                                echo "<option value='".$fila['id']."'>".$fila['nombre']."</option>";
+                                if($fila['id'] != '0') {
+                                    echo "<option value='".$fila['id']."'>".$fila['nombre']."</option>";
+                                }
                             }
                         ?>
                     </select>
@@ -270,7 +247,9 @@ if($_SESSION['user']['permiso'] == '3') {
                         <?php
                             for($i = 0; $i < $generos -> num_rows; $i++) {
                                 $fila = $generos -> fetch_assoc();
-                                echo "<option value='".$fila['id']."'>".$fila['nombre']."</option>";
+                                if($fila['id'] != '0') {
+                                    echo "<option value='".$fila['id']."'>".$fila['nombre']."</option>";
+                                }
                             }
                         ?>
                     </select>
@@ -291,7 +270,9 @@ if($_SESSION['user']['permiso'] == '3') {
                         <?php
                             for($i = 0; $i < $marcas -> num_rows; $i++) {
                                 $fila = $marcas -> fetch_assoc();
-                                echo "<option value='".$fila['id']."'>".$fila['nombre']."</option>";
+                                if($fila['id'] != '0') {
+                                    echo "<option value='".$fila['id']."'>".$fila['nombre']."</option>";
+                                }
                             }
                         ?>
                     </select>
@@ -310,7 +291,6 @@ if($_SESSION['user']['permiso'] == '3') {
 
 </div> <!--Final del container principal-->
 
-
-<script type="module" src="<?php echo "http://" . $_SERVER['SERVER_NAME'] . "/urban/backoffice/js/descuentos/reglasComerciales.js"; ?>"></script>
+<script type="module" src="<?php echo "http://" . $_SERVER['SERVER_NAME'] . "/urban/backoffice/js/descuentos/manejoReglasComerciales.js"; ?>"></script>
 
 <?php require_once __DIR__ . '/../../../footer.php'; ?>

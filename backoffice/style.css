@@ -1226,7 +1226,8 @@ not-available] ~ .status-no-available {
 }
 
 .condition-group-select {
-    flex-basis: 200px;
+    flex-basis: 100%;
+    max-width: 250px;
 }
 
 .form-select-condition {
@@ -1267,6 +1268,10 @@ not-available] ~ .status-no-available {
     padding: 15px;
 }
 
+.conditions-list-head li {
+    flex-basis: 33%;
+}
+
 .conditions-included-group .conditions-list-body {
     display: flex;
     justify-content: space-between;
@@ -1284,6 +1289,14 @@ not-available] ~ .status-no-available {
     color: var(--color-grey);
 }
 
+.conditions-list-body li {
+    flex-basis: 33%;
+}
+
+.conditions-list-body li:last-child {
+    text-align: right;
+}
+
 .btn-condition-delete {
     background-color: transparent;
     border: none;
@@ -1292,6 +1305,7 @@ not-available] ~ .status-no-available {
     font-size: 24px;
     cursor: pointer;
     transition: var(--transition-ease);
+    margin-left: auto;
 }
 
 .btn-condition-delete:hover {

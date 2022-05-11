@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="<?php echo "http://".$_SERVER['SERVER_NAME']."/urban/backoffice/style.css"; ?>">
 
-    <script src="http://localhost/urban/backoffice/js/menuAdmin.js" defer></script>
     <title>Urbano Clothes Store</title>
 </head>
 
@@ -124,7 +123,7 @@
                                 <li><a href="<?php echo "http://".$_SERVER['SERVER_NAME']."/urban/backoffice/catalogo/categorias/"; ?>">Categorías</a></li>
                                 <li><a href="<?php echo "http://".$_SERVER['SERVER_NAME']."/urban/backoffice/catalogo/atributos/colores/"; ?>">Atributos y características</a></li>
                                 <li><a href="<?php echo "http://".$_SERVER['SERVER_NAME']."/urban/backoffice/catalogo/marcas/"; ?>">Marcas</a></li>
-                                <li><a href="#">Descuentos</a></li>
+                                <li><a href="<?php echo "http://".$_SERVER['SERVER_NAME']."/urban/backoffice/catalogo/descuentos/comerciales/"; ?>">Descuentos</a></li>
                                 <li><a href="#">Stock</a></li>
                             </ul>
                         </div>
