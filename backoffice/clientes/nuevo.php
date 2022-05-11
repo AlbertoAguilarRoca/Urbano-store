@@ -9,7 +9,7 @@ if ($controlAccess->getUser() == null) {
 }
 
 if($_SESSION['user']['permiso'] == '3') {
-    header("Location: /urban/backoffice/catalogo/marcas/index.php");
+    header("Location: /urban/backoffice/clientes/");
     exit;
 }
 

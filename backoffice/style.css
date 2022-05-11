@@ -899,7 +899,7 @@ textarea.form-input {
     color: var(--color-secundary-grey);
 }
 
-.form-select {
+.form-select, .form-select-rules, .form-date {
     display: block;
     max-width: 35%;
     width: 100%;
@@ -909,6 +909,8 @@ textarea.form-input {
     margin-bottom: 5px;
     font-size: 16px;
     color: var(--color-primary-darker);
+    padding: 5px;
+    font-family: var(--font-family);
 }
 
 /*Select de cumpleaños de clientes*/
@@ -1190,6 +1192,114 @@ not-available] ~ .status-no-available {
 }
 
 /*! ************************************************************************************************************ FIN FORMULARIOS ************************************************************************************************************ */
+
+/*! ************************************************************************************************************ REGLAS COMERCIALES ************************************************************************************************************ */
+
+.conditions-included.empty {
+    display: none;
+}
+
+.comercial-rules-container {
+    padding: 30px 0;
+    border-top: 1px solid var(--color-secundary-grey);
+}
+
+.comercial-rules-title {
+    color: var(--color-primary);
+}
+
+.condition-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--bg-secundary-darker);
+    max-width: 800px;
+}
+
+.condition-group-name {
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--color-dark);
+    flex-basis: 120px;
+}
+
+.condition-group-select {
+    flex-basis: 200px;
+}
+
+.form-select-condition {
+    display: block;
+    width: 100%;
+    height: 35px;
+    border: 1px solid var(--color-secundary-grey);
+    border-radius: 5px;
+    font-size: 16px;
+    color: var(--color-primary-darker);
+    padding: 5px;
+    font-family: var(--font-family);
+}
+
+.rules-btn {
+    padding: 10px 30px;
+    border: 1px solid var(--color-secundary-grey);
+    border-radius: 5px;
+    background-color: var(--color-secundary-grey);
+    color: white;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.rules-btn:hover {
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+}
+
+.conditions-included-group .conditions-list-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    padding: 15px;
+}
+
+.conditions-included-group .conditions-list-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    background-color: var(--bg-secundary-darker);
+    border-radius: 5px;
+    margin: 10px 0;
+    padding: 15px;
+}
+
+.conditions-list-body li:first-child {
+    font-weight: 700;
+    color: var(--color-grey);
+}
+
+.btn-condition-delete {
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    color: var(--color-error);
+    font-size: 24px;
+    cursor: pointer;
+    transition: var(--transition-ease);
+}
+
+.btn-condition-delete:hover {
+    background-color: var(--color-error);
+    color: white;
+}
+
+/*! ************************************************************************************************************ FIN REGLAS COMERCIALES ************************************************************************************************************ */
 
 /*!ANIMACIONES*/
 @keyframes popOver {
