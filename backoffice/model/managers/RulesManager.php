@@ -21,44 +21,37 @@ class RulesManager extends Db {
         return $this->error_sql;
     }
 
-    public function getCategories() {
-        $sql = "SELECT id, nombre FROM categorias";
+    public function insert_rule($nombre, $grupo, $fecha_inicio, $fecha_fin, $tipo_reduccion, $reduccion, $tasas_incluidas) {
+        $sql = "INSERT INTO reglascomerciales (nombre, grupo, fecha_inicio, fecha_fin, tipo_reduccion, reduccion, tasas_incluidas)
+        VALUES ('$nombre', '$grupo', '$fecha_inicio', '$fecha_fin', '$tipo_reduccion', '$reduccion', '$tasas_incluidas')";
 
-        $resultado = $this -> getConnection() -> query($sql);
-        return $resultado;
+        if ($this -> getConnection() -> query($sql) === TRUE) {
+            return true;
+        } else {
+            return "Error SQL: " . $this -> getConnection() -> error;
+        }
     }
 
-    public function getSubcategories() {
-        $sql = "SELECT id, nombre FROM subcategorias";
+    public function insert_conditions($id_regla, $tipo, $valor_id, $valor_nombre) {
+        $sql = "INSERT INTO reglascomerciales_cond (id_regla, tipo, valor_id, valor_nombre) 
+        VALUES('$id_regla', '$tipo', '$valor_id', '$valor_nombre')";
 
-        $resultado = $this -> getConnection() -> query($sql);
-        return $resultado;
+        if ($this -> getConnection() -> query($sql) === TRUE) {
+            return true;
+        } else {
+            return "Error SQL: " . $this -> getConnection() -> error;
+        }
     }
 
-    public function getColors() {
-        $sql = "SELECT id, nombre FROM colores";
+    public function checkIfIdRuleExist($id_regla) {
+        $sql = "SELECT count(id_regla) as total FROM reglascomerciales WHERE id_regla = '$id_regla';";
 
         $resultado = $this -> getConnection() -> query($sql);
-        return $resultado;
+        $data = $resultado -> fetch_assoc();
+        return $data['total'];
     }
-
-    public function getGenders() {
-        $sql = "SELECT id, nombre FROM genero";
-
-        $resultado = $this -> getConnection() -> query($sql);
-        return $resultado;
-    }
-
-    public function getBrands() {
-        $sql = "SELECT id, nombre FROM marcas";
-
-        $resultado = $this -> getConnection() -> query($sql);
-        return $resultado;
-    }
-
 
 }
-
 
 
 ?>

@@ -31,6 +31,14 @@ button:focus {
     padding-bottom: 10px;
 }
 
+.pr-5 {
+    padding-right: 10px;
+}
+
+.pl-5 {
+    padding-left: 10px;
+}
+
 .pt-10 {
     padding-top: 20px;
 }
@@ -1191,6 +1199,187 @@ not-available] ~ .status-no-available {
     display: block !important;
 }
 
+/* FORMULARIO DE PRODUCTOS */
+
+.product-form-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.product-form-col {
+    flex: 1 1 100%;
+}
+
+.product-form-col-group {
+    display: flex;
+}
+
+.product-form-col-group > div {
+    flex-grow: 1;
+}
+
+#form-product {
+    max-width: 1500px;
+}
+
+#form-product .form-status-area {
+    height: 36px;
+    padding-bottom: 0;
+}
+
+#form-product .form-label {
+    padding: 10px 0;
+}
+
+#form-product .form-select {
+    max-width: 100%;
+    height: 36px;
+    margin-bottom: 0;
+}
+
+.form-display-images {
+    width: 100%;
+    height: 350px;
+    border-radius: 5px;
+    border: 1px solid var(--bg-secundary-darker);
+    background-color: var(--bg-secundary);
+    overflow: auto;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.upload-images-product {
+    padding: 10px 0;
+    display: flex;
+    justify-content: end;
+}
+
+.upload-images-product .upload-images-btn {
+    padding: 5px 20px;
+    border: 1px solid var(--color-primary-darker);
+    color: var(--color-primary-darker);
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    background-color: transparent;
+}
+
+.form-file-img {
+    display: none;
+}
+
+.product-img {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 15px;
+    margin: 15px;
+}
+
+.delete-btn-image {
+    color: var(--color-error);
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background-color: white;
+    border-radius: 100%;
+    font-size: 24px;
+    width: 21px;
+    height: 21px;
+    cursor: pointer;
+    display: none;
+}
+
+.product-img:hover .delete-btn-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-img img {
+    object-fit: cover;
+    object-position: center center;
+    height: 100%;
+    width: 100%;
+}
+
+.product-img:hover img {
+    box-shadow: inset 0px 0px 35px 0px rgba(0,0,0,0.8);
+}
+
+.sizes-box {
+    margin: 10px 0;
+    max-height: 300px;
+    overflow: auto;
+}
+
+.form-display-images::-webkit-scrollbar,
+.sizes-box::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.form-display-images::-webkit-scrollbar:vertical,
+.sizes-box::-webkit-scrollbar:vertical {
+    width: 10px;
+}
+
+.form-display-images::-webkit-scrollbar-track,
+.sizes-box::-webkit-scrollbar-track {
+    background-color: var(--color-secundary-grey);
+    border-radius: 20px;
+}
+
+.form-display-images::-webkit-scrollbar-thumb,
+.sizes-box::-webkit-scrollbar-thumb {
+    background-color: var(--color-grey);
+    border-radius: 20px;
+}
+
+.btn-add {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.btn-add button {
+    padding: 6px;
+    border: 1px solid var(--color-primary-darker);
+    color: var(--color-primary-darker);
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 5px;
+    background-color: transparent;
+}
+
+.no-images {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.no-images.images-upladed {
+    display: none;
+}
+
+.no-images .images-icon,
+.no-images .images-text {
+    color: var(--color-secundary-grey);
+}
+
+.no-images .images-icon {
+    text-align: center;
+    font-size: 5rem;
+}
+
+.no-images .images-text {
+    text-align: center;
+    font-size: 14px;
+}
+
 /*! ************************************************************************************************************ FIN FORMULARIOS ************************************************************************************************************ */
 
 /*! ************************************************************************************************************ REGLAS COMERCIALES ************************************************************************************************************ */
@@ -1272,7 +1461,7 @@ not-available] ~ .status-no-available {
     flex-basis: 33%;
 }
 
-.conditions-included-group .conditions-list-body {
+.conditions-list-body {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1362,6 +1551,19 @@ not-available] ~ .status-no-available {
 
 .content-description p {
     max-width: 800px;
+}
+
+/*! *************************************************************************************************************** FORMULARIOS *************************************************************************************************************** */
+
+.product-form-row {
+    flex-wrap: nowrap;
+}
+
+.product-form-row > .product-form-col:first-child {
+    padding-right: 10px;
+}
+.product-form-row > .product-form-col:last-child {
+    padding-left: 10px;
 }
 
 

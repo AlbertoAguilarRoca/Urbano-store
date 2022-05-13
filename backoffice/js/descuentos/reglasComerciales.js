@@ -1,6 +1,7 @@
 /* Archivo para gestionar las condiciones de los descuentos comerciales */
 
 import {formValidation} from '../helpers/formValidation.js';
+import { lenthCounterForm, setLengthToInitial } from "../helpers/lengthCounterInput.js";
 
 
 const condiciones = [];
@@ -9,7 +10,18 @@ const cond_total = document.getElementById('conditions-length');
 const rules_btn = document.querySelectorAll('.rules-btn');
 const cond_included_box = document.getElementById('conditions');
 const form = document.getElementById('form-regla-comercial');
+const formGroups = form.querySelectorAll('.form-group');
 
+formGroups.forEach((group) => {
+    const input = group.querySelector('.form-input');
+    const lengthCount = group.querySelector('.input-length-counter');
+    if (!input || !lengthCount) {
+        return;
+    }
+
+    lengthCount.innerText = `${input.value.length}/${input.getAttribute('maxlength')}`;
+        lenthCounterForm(group);
+});
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -44,6 +56,7 @@ rules_btn.forEach(bnt => {
             cond_id: `${select_type}_${select_value}`
         };
 
+        //Con este if comprobamos que no se haya creado ya esa condicion
         if(!document.getElementById(cond.cond_id)) {
             condiciones.push(cond);
 

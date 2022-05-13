@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../../../security/controlAccess.php';
-include_once __DIR__ . '/../../../model/managers/RulesManager.php';
+include_once __DIR__ . '/../../../model/managers/GenericManager.php';
 
 $controlAccess = new ControlAccess();
 if ($controlAccess->getUser() == null) {
@@ -79,14 +79,14 @@ if($_SESSION['user']['permiso'] == '3') {
 
                 <div class="form-group pb-5" data-required="true" data-type="date">
                     <label for="fecha_inicio" class="form-label">Fecha de inicio *</label>
-                    <input class="form-date" type="datetime-local" min="<?php echo date('Y-m-d'); ?>" class="form-date" name="fecha_inicio">
+                    <input class="form-date" type="datetime-local" min="<?php echo date('Y-m-d').'T'.date('h:i'); ?>" class="form-date" name="fecha_inicio">
                         
                     <p class="input-error-info">Debes incluir una fecha válida.</p>
                 </div>
 
                 <div class="form-group pb-5" data-required="true" data-type="date">
                     <label for="fecha_fin" class="form-label">Fecha de fin *</label>
-                    <input class="form-date" type="datetime-local" min="<?php echo date('Y-m-d'); ?>" class="form-date" name="fecha_fin">
+                    <input class="form-date" type="datetime-local"min="<?php echo date('Y-m-d').'T'.date('h:i'); ?>" class="form-date" name="fecha_fin">
                         
                     <p class="input-error-info">Debes incluir una fecha válida.</p>
                 </div>
@@ -94,7 +94,7 @@ if($_SESSION['user']['permiso'] == '3') {
                 <div class="form-group pb-5" data-required="true" data-type="select">
                     <label for="grupo" class="form-label">Tipo de reducción *</label>
                     <select class="form-select-rules" name="tipo_reduccion">
-                        <option value="Porcentaje">Porcentaje</option>
+                        <option value="porcentaje">Porcentaje</option>
                         <option value="cantida-fija">Cantidad fija</option>
                     </select>
                     <p class="input-error-info">Debes realizar una selección.</p>
@@ -116,7 +116,7 @@ if($_SESSION['user']['permiso'] == '3') {
                     <p class="input-error-info">Formato incorrecto.</p>
 
                     <div class="form-group-info">
-                        <span>Si el tipo de reducción es porcentual, el rango sera de 0 a 1. El único caracter separador válido será el punto.</span>
+                        <span>Si el tipo de reducción es porcentual, el rango sera de 0 a 1 (Ej: para un 10% de descuento sería 0.10). El único caracter separador válido será el punto.</span>
                     </div>
                 </div>
 
@@ -163,13 +163,13 @@ if($_SESSION['user']['permiso'] == '3') {
             </div>
 
             <?php
-                $rulesManager = new RulesManager();
+                $genericManager = new GenericManager();
 
-                $categorias = $rulesManager -> getCategories();
-                $subcategorias = $rulesManager -> getSubcategories();
-                $colores = $rulesManager -> getColors();
-                $generos = $rulesManager -> getGenders();
-                $marcas = $rulesManager -> getBrands();
+                $categorias = $genericManager -> getCategories();
+                $subcategorias = $genericManager -> getSubcategories();
+                $colores = $genericManager -> getColors();
+                $generos = $genericManager -> getGenders();
+                $marcas = $genericManager -> getBrands();
             ?>
 
             <div class="condition-group">
@@ -291,6 +291,6 @@ if($_SESSION['user']['permiso'] == '3') {
 
 </div> <!--Final del container principal-->
 
-<script type="module" src="<?php echo "http://" . $_SERVER['SERVER_NAME'] . "/urban/backoffice/js/descuentos/manejoReglasComerciales.js"; ?>"></script>
+<script type="module" src="<?php echo "http://" . $_SERVER['SERVER_NAME'] . "/urban/backoffice/js/descuentos/reglasComerciales.js"; ?>"></script>
 
 <?php require_once __DIR__ . '/../../../footer.php'; ?>

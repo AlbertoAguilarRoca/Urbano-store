@@ -9,7 +9,6 @@ export const formValidation = (form) => {
         if (group.hasAttribute('data-required')) {
             const type = group.getAttribute('data-type');
             const input = searchElement(group);
-
             //Si encuentra el input, pasa a validarlo
             if (!!input) {
                 if (selectValidation(type, input)) {
@@ -75,10 +74,22 @@ function selectValidation(type, input) {
             return validatePostal(input);
         case 'telefono':
             return validatePhone(input);
+        case 'date':
+            return validateDate(input);
 
         default:
             console.error('Error en la validación de un input -> ' + type);
             break;
+    }
+}
+
+const validateDate = (input) => {
+    const valor = input.value;
+
+    if(valor === '') {
+        return false;
+    } else {
+        return true;
     }
 }
 
@@ -255,7 +266,7 @@ const validateNif = (cif, letters) => {
 const validateDeleteForm = (input) => {
     const valor = input.value;
     const textToBeType = input.getAttribute('data-content-delete');
-    console.log(textToBeType, valor);
+    
     if (valor === textToBeType) {
         return true;
     } else {
@@ -274,6 +285,7 @@ const validateSearch = (input) => {
 
 const validateSelect = (input) => {
     const valor = input.value;
+
     if (valor && valor != '') {
         return true;
     } else {
@@ -315,12 +327,17 @@ const validateSelectDate = (selects) => {
 //Como no sabemos que elemento hay que validar, hay que buscarlo
 const searchElement = (group) => {
     let elemento = '';
+
     if (group.querySelector('.form-input')) {
         elemento = group.querySelector('.form-input');
     } else if (group.querySelector('.form-select')) {
         elemento = group.querySelector('.form-select');
     } else if (group.querySelector('.form-color')) {
         elemento = group.querySelector('.form-color');
+    } else if (group.querySelector('.form-select-rules')) {
+        elemento = group.querySelector('.form-select-rules');
+    } else if (group.querySelector('.form-date')) {
+        elemento = group.querySelector('.form-date');
     } else if (group.querySelectorAll('.form-select-date-input')) {
         elemento = group.querySelectorAll('.form-select-date-input');
     }
