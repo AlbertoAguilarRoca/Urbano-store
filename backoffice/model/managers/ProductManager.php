@@ -41,6 +41,40 @@ require_once __DIR__ .'/../connection/Db.php';
             return $data;
         }
 
+        function getProductById($ref) {
+            $sql = "SELECT nombre, marca, genero, fecha_creacion, estado, color, precio, iva, resumen, caracteristicas, subcategoria FROM productos WHERE referencia = '$ref'";
+
+            $resultado = $this -> getConnection() -> query($sql);
+            $data = $resultado -> fetch_assoc();
+            return $data;
+        }
+
+        function getTallasById($ref) {
+            $sql = "SELECT t.talla as talla, tp.id_talla as 'id_talla', tp.cantidad as cantidad, 
+            tp.stock_minimo as 'stock_minimo' 
+            FROM productos p, tallasproductos tp, tallas t
+            WHERE p.referencia = tp.ref_producto AND tp.id_talla = t.id 
+            AND p.referencia = '$ref'";
+
+            $resultado = $this -> getConnection() -> query($sql);
+            return $resultado;
+        }
+
+        function getImgById($ref) {
+            $sql = "SELECT nombre, tipo, img FROM imagenesproductos 
+            WHERE referencia = '$ref'";
+
+            $resultado = $this -> getConnection() -> query($sql);
+            return $resultado;
+        }
+
+        function getProdRefById($ref) {
+            $sql = "SELECT ref_producto_rel FROM productosrelacionados WHERE ref_producto = '$ref'";
+
+            $resultado = $this -> getConnection() -> query($sql);
+            return $resultado;
+        }
+
         function getProductsSearched($order = 'estado', $sort = 'ASC', $inicio = 0, $registros_x_pagina = 100, $search) {
             $sql = "SELECT p.referencia, p.nombre, m.nombre as marca , sc.nombre as subcategoria, p.precio, p.iva,
             round(p.precio * (1 + iva), 2) as 'precio_con_iva', 
@@ -180,6 +214,18 @@ require_once __DIR__ .'/../connection/Db.php';
             }
         }
 
+        function update($ref, $nombre, $resumen, $estado, $caracteristicas, $marca, $color, $subcategoria, $precio, $iva, $fecha_creacion, $genero) {
+            $sql = "UPDATE productos SET nombre = '$nombre', resumen = '$resumen', estado = $estado, caracteristicas = '$caracteristicas', 
+            marca = $marca, color = $color, subcategoria = $subcategoria, precio = $precio, iva = $iva, fecha_creacion = '$fecha_creacion', genero = $genero 
+            WHERE referencia = '$ref'";
+
+            if ($this -> getConnection() -> query($sql) === TRUE) {
+                return true;
+            } else {
+                return "Error SQL: " . $this -> getConnection() -> error;
+            }
+        }
+
         function getAllStock($ref) {
             $sql = "SELECT sum(cantidad) as stock from tallasproductos where ref_producto = '$ref'";
 
@@ -212,6 +258,16 @@ require_once __DIR__ .'/../connection/Db.php';
             return $data['estado'];
         }
 
+        function delete($ref) {
+            $sql = "DELETE FROM productos WHERE referencia = '$ref'";
+
+            if ($this -> getConnection() -> query($sql) === TRUE) {
+                return true;
+            } else {
+                return "Error SQL: " . $this -> getConnection() -> error;
+            }
+        }
+
         function delete_ref_prod($ref) {
             $sql = "DELETE FROM productosrelacionados WHERE ref_producto = '$ref'";
 
@@ -234,6 +290,36 @@ require_once __DIR__ .'/../connection/Db.php';
 
         function delete_img_prod($ref) {
             $sql = "DELETE FROM imagenesproductos WHERE referencia = '$ref'";
+
+            if ($this -> getConnection() -> query($sql) === TRUE) {
+                return true;
+            } else {
+                return "Error SQL: " . $this -> getConnection() -> error;
+            }
+        }
+
+        function delete_wish_list($ref) {
+            $sql = "DELETE FROM listadeseos WHERE ref_producto = '$ref'";
+
+            if ($this -> getConnection() -> query($sql) === TRUE) {
+                return true;
+            } else {
+                return "Error SQL: " . $this -> getConnection() -> error;
+            }
+        }
+
+        function delete_prod_pedidos($ref) {
+            $sql = "DELETE FROM productospedidos WHERE ref_producto = '$ref'";
+
+            if ($this -> getConnection() -> query($sql) === TRUE) {
+                return true;
+            } else {
+                return "Error SQL: " . $this -> getConnection() -> error;
+            }
+        }
+
+        function delete_prod_review($ref) {
+            $sql = "DELETE FROM producto_review WHERE producto = '$ref'";
 
             if ($this -> getConnection() -> query($sql) === TRUE) {
                 return true;

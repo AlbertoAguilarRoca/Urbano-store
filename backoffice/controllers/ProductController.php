@@ -102,7 +102,55 @@ if($requestMethod == 'POST') {
 
 
     if(isset($_POST['_method']) && $_POST['_method'] == 'put') {
-        //update
+
+        $ref = $_GET['ref'];
+        
+        $resp = $productManager -> update($ref, $nombre, $resumen, $estado, $caracteristicas, $marca, $color, $subcategoria, $precio, $iva, $fecha_creacion, $genero);
+
+        if($resp == TRUE) {
+            //BORRAMOS TODOS LOS DATOS, Y VOLVEMOS A SUBIR LOS ACTUALIZADOS
+            $productManager -> delete_ref_prod($ref);
+            $productManager -> delete_tallas_prod($ref);
+
+            //INSERT PROD REL
+            for ($i=0; $i < count($prod_rel); $i++) { 
+                $resp = $productManager -> insert_prod_rel($ref, $prod_rel[$i]['id']);
+            }
+
+            //INSERT TALLAS PRODUCTOS
+            for ($i=0; $i < count($stock_tallas); $i++) { 
+                $resp = $productManager -> insert_stock_tallas($ref, $stock_tallas[$i]['talla_id'], $stock_tallas[$i]['stock'], $stock_tallas[$i]['stock_min']);
+            }
+
+            //SI NO HAY ARCHIVOS, NO HAGO NADA
+            if( !empty( $_FILES ) && $_FILES['imagenes_producto']['name'][0] != '') {
+                
+                $productManager -> delete_img_prod($ref);
+
+                for ($i=0; $i < count($_FILES['imagenes_producto']['name']); $i++) { 
+                    //compruebo si el tipo de imagen es de los permitidos
+                    if($_FILES['imagenes_producto']['type'][$i] == 'image/jpeg' || 
+                    $_FILES['imagenes_producto']['type'][$i] == 'image/png' ||
+                    $_FILES['imagenes_producto']['type'][$i] == 'image/jpg') {
+
+                        $typeFile = $_FILES['imagenes_producto']['type'][$i];
+                        $nameFile = $_FILES['imagenes_producto']['name'][$i];
+                        $sizeFile = $_FILES['imagenes_producto']['size'][$i];
+                        //Aqui se almacena temporalmente los archivos subidos del servidor
+                        $imageUpload = fopen($_FILES['imagenes_producto']['tmp_name'][$i], 'r');
+                        $binaryImage = fread($imageUpload, $sizeFile);
+                        //Limpiamos los binarios para proceder con la subida
+                        $binaryImage = mysqli_escape_string($productManager->getConnection(), $binaryImage);
+
+                        $resp = $productManager -> insert_img_prod($nameFile, $binaryImage, $typeFile, $ref);
+                    }
+                }
+            }
+
+            echo json_encode($resp);
+
+        }
+
     } else {
 
         //creamos el id de la regla comercial
@@ -157,15 +205,29 @@ if($requestMethod == 'POST') {
                     $resp = $productManager -> insert_img_prod($nameFile, $binaryImage, $typeFile, $ref);
                 }
             }
-
         }
-
 
         echo json_encode($resp);
 
-    }
+    } 
 
 
+} else if($requestMethod == 'DELETE') {
+    $ref = $_GET['ref'];
+    //BORRAMOS TALLAS
+    $productManager -> delete_tallas_prod($ref);
+    //BORRAMOS PRODUCTOS RELACIONADOS
+    $productManager -> delete_ref_prod($ref);
+    //borramos imagenes
+    $productManager -> delete_img_prod($ref);
+    //borramos productos de las listas de deseos de los clientes
+    $productManager -> delete_wish_list($ref);
+    //borramos productos de los pedidos
+    $productManager -> delete_prod_pedidos($ref);
+    $productManager -> delete_prod_review($ref);
+    $resp = $productManager -> delete($ref);
+
+    echo json_encode($resp);
 }
 
 ?>

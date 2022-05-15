@@ -1,15 +1,15 @@
 /* Archivo para controlar las funcionalidades de la subida y edicion de productos */
 
-import { formValidation } from '../helpers/formValidation.js';
+import { formValidation, setMessageInfo } from '../helpers/formValidation.js';
 import { lenthCounterForm, setLengthToInitial } from "../helpers/lengthCounterInput.js";
 
 
-const stock_tallas = [];
-const prod_rel = [];
+let stock_tallas = [];
+let prod_rel = [];
 
 const form = document.getElementById('form-product');
 const formGroups = form.querySelectorAll('.form-group');
-
+const formDelete = document.getElementById('form-delete');
 //Boton para añadir imagenes
 const btn_upload = document.getElementById('btn-upload');
 //input type file para subir imagenes
@@ -55,6 +55,8 @@ form.addEventListener('submit', async (e) => {
 
             stock_tallas = [];
             prod_rel = [];
+
+
         }
         setMessageInfo(resp, form);
     } else {
@@ -82,8 +84,37 @@ const sendData = async (formData) => {
 
     const data = await resp.json();
 
+    (data && !id) && deleteImg();
+
     //Si retorna true se subio correctamente
     return data;
+}
+
+if(formDelete) {
+    formDelete.addEventListener('submit', async (e) => {
+        e.preventDefault();
+    
+        if (formValidation(formDelete)) {
+            const params = new URLSearchParams(document.location.search);
+            const id = params.get('ref');
+            const resp = await fetch(`http://localhost/urban/backoffice/controllers/ProductController.php?ref=${id}`, {
+                method: 'DELETE'
+            });
+    
+            const data = await resp.json();
+    
+            if (data === true) {
+                window.location = 'http://localhost/urban/backoffice/catalogo/productos/';
+                console.log('Borrado correcto');
+            } else {
+                alert('Error al borrar: ' + data);
+            }
+    
+        } else {
+            console.log('formulario con errores.');
+        }
+    
+    });
 }
 
 /* Evento para abrir el selector de archivos de imagen */
@@ -142,7 +173,7 @@ add_size_btn.addEventListener('click', () => {
         stock_min: stock_min
     }
 
-    if(!document.getElementById(sizeProduct.id) && select_value != '' && stock > stock_min) {
+    if(!document.getElementById(sizeProduct.id) && select_value != '' && parseInt(stock) > parseInt(stock_min)) {
 
         if(stock_min == '') {sizeProduct.stock_min = 0}
 
@@ -216,7 +247,6 @@ function setEventToDeleteRef(delete_btn) {
     delete_btn.forEach( (btn) => {
         btn.addEventListener('click', (e) => {
             borrarCondicion(e, prod_rel);
-            console.log(prod_rel)
         });
     });
 }
@@ -238,13 +268,7 @@ function borrarCondicion(event, arr) {
 
 //FUNCIONALIDADES DE LA FIJACION DE PRECIOS
 
-precio_sin_iva.addEventListener('change', () => {
-    if(precio_sin_iva.value != '') {
-        const precio = new Decimal(parseFloat(precio_sin_iva.value));
-        const iva_value = 1 + parseFloat(iva.value);
-        precio_con_iva.value = `${precio.mul(iva_value).toNumber().toFixed(2)}`;
-    }
-});
+precio_sin_iva.addEventListener('change', () => addTaxes);
 
 
 precio_con_iva.addEventListener('change', () => {
@@ -254,3 +278,73 @@ precio_con_iva.addEventListener('change', () => {
         precio_sin_iva.value = `${precio.dividedBy(iva_value).toNumber().toFixed(2)}`;
     }
 });
+
+addTaxes();
+
+function addTaxes() {
+    if(precio_sin_iva.value != '') {
+        const precio = new Decimal(parseFloat(precio_sin_iva.value));
+        const iva_value = 1 + parseFloat(iva.value);
+        precio_con_iva.value = `${precio.mul(iva_value).toNumber().toFixed(2)}`;
+    }
+}
+
+function loadRefProducts() {
+    const listaRefProduct = ref_box.querySelectorAll('.conditions-list-body');
+
+    listaRefProduct.forEach( list => {
+
+        prod_rel.push({
+            id: list.id
+        });
+
+        list.querySelector('.btn-delete-ref').addEventListener('click', (e) => {
+            borrarCondicion(e, prod_rel);
+        });
+
+    });
+}
+
+function loadSizes() {
+    const listSizes = size_box.querySelectorAll('.conditions-list-body');
+
+    listSizes.forEach( list => {
+        
+
+        const sizeProduct = {
+            id: list.id,
+            talla_id: list.getAttribute('data-id-talla'),
+            talla_text: list.getAttribute('data-text'),
+            stock: list.getAttribute('data-stock'),
+            stock_min: list.getAttribute('data-stock-min')
+        }
+
+        stock_tallas.push(sizeProduct);
+
+        list.querySelector('.btn-delete-size').addEventListener('click', (e) => {
+            borrarCondicion(e, stock_tallas);
+        });
+    });
+}
+
+if(ref_box.hasChildNodes()) {
+    loadRefProducts();
+}
+
+if(size_box.hasChildNodes()) {
+    loadSizes();
+}
+
+if(document.querySelectorAll('.product-img').length > 0) {
+    info_images.classList.add('images-upladed');
+}
+
+function deleteImg() {
+    const img = document.querySelectorAll('.product-img');
+
+    img.forEach( el => {
+        el.remove();
+    });
+
+    info_images.classList.remove('images-upladed');
+}
