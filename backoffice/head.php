@@ -119,12 +119,12 @@
                             </div>
 
                             <ul class="menu-nav-content-group-list">
-                                <li><a href="#">Productos</a></li>
+                                <li><a href="<?php echo "http://".$_SERVER['SERVER_NAME']."/urban/backoffice/catalogo/productos/"; ?>">Productos</a></li>
                                 <li><a href="<?php echo "http://".$_SERVER['SERVER_NAME']."/urban/backoffice/catalogo/categorias/"; ?>">Categorías</a></li>
                                 <li><a href="<?php echo "http://".$_SERVER['SERVER_NAME']."/urban/backoffice/catalogo/atributos/colores/"; ?>">Atributos y características</a></li>
                                 <li><a href="<?php echo "http://".$_SERVER['SERVER_NAME']."/urban/backoffice/catalogo/marcas/"; ?>">Marcas</a></li>
                                 <li><a href="<?php echo "http://".$_SERVER['SERVER_NAME']."/urban/backoffice/catalogo/descuentos/comerciales/"; ?>">Descuentos</a></li>
-                                <li><a href="#">Stock</a></li>
+                                <li><a href="<?php echo "http://".$_SERVER['SERVER_NAME']."/urban/backoffice/catalogo/stock/"; ?>">Stock</a></li>
                             </ul>
                         </div>
 

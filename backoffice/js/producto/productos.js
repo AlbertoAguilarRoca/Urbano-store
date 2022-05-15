@@ -3,6 +3,7 @@
 import { formValidation } from '../helpers/formValidation.js';
 import { lenthCounterForm, setLengthToInitial } from "../helpers/lengthCounterInput.js";
 
+
 const stock_tallas = [];
 const prod_rel = [];
 
@@ -20,6 +21,14 @@ const info_images = document.getElementById('no-images-box');
 const add_size_btn = document.getElementById('add-size');
 //Boton para añadir ref de productos
 const add_prod_ref_btn = document.getElementById('add-ref-product');
+//contenedor donde se añaden los datos
+const size_box = document.getElementById('tallas-contenedor');
+//contenedor donde se añaden los datos
+const ref_box = document.getElementById('ref-product-contenedor');
+//precios
+const precio_sin_iva = document.getElementById('precio-sin');
+const precio_con_iva = document.getElementById('precio-con');
+const iva = document.getElementById('iva');
 
 formGroups.forEach((group) => {
     const input = group.querySelector('.form-input');
@@ -32,15 +41,50 @@ formGroups.forEach((group) => {
         lenthCounterForm(group);
 });
 
-form.addEventListener('submit', (e) => {
+form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     if(formValidation(form)) {
-        console.log('Formulario valido');
+        const formData = new FormData(form);
+        const resp = await sendData(formData);
+
+        if(resp)  {
+            setLengthToInitial();
+            ref_box.innerHTML = '';
+            size_box.innerHTML = '';
+
+            stock_tallas = [];
+            prod_rel = [];
+        }
+        setMessageInfo(resp, form);
     } else {
         console.log('Formulario NO valido');
     }
 });
+
+const sendData = async (formData) => {
+    /* añado el id de la marca */
+    const params = new URLSearchParams(document.location.search);
+    const id = params.get('ref');
+
+    if(prod_rel.length > 0) {
+        formData.append('prod_rel', JSON.stringify(prod_rel));
+    }
+
+    if(stock_tallas.length > 0) {
+        formData.append('stock_tallas', JSON.stringify(stock_tallas));
+    }
+
+    const resp = await fetch(`http://localhost/urban/backoffice/controllers/ProductController.php?ref=${id}`, {
+        method: 'POST',
+        body: formData,
+    });
+
+    const data = await resp.json();
+
+    //Si retorna true se subio correctamente
+    return data;
+}
 
 /* Evento para abrir el selector de archivos de imagen */
 btn_upload.addEventListener('click', () => {
@@ -62,37 +106,21 @@ function previewImages() {
     for (let img of imagenes) {
         setReaderToFile(img);
     }
-
-    //Para añadir un listener de click al boton de close de las imagenes, tenemos que establecer un timeout para que pueda coger los botones del dom
-    setTimeout(() => {
-        const del_btn = document.querySelectorAll('.delete-btn-image');
-        setListenerToDeleteBtn(del_btn);
-    }, 1000);
     
-
 }
 
 function setReaderToFile(img) {
+    imageContainer.innerHTML = '';
     let reader = new FileReader();
     reader.onload = () => {
         imageContainer.innerHTML +=
-            `<div class="product-img">
-                    <button type="button" class="delete-btn-image">
-                        <i class="bi bi-x-circle-fill"></i>
-                    </button>
+            `<div class="product-img" data-img="${img.name}">
                     <img src="${reader.result}" alt="${img.name}">
                 </div>`;
     }
     reader.readAsDataURL(img);
 }
 
-function setListenerToDeleteBtn(del_btn) {
-    del_btn.forEach((btn) => {
-        btn.addEventListener('click', (e) => {
-            console.log(e);
-        });
-    });
-}
 
 /* AÑADIR Y BORRAR STOCK DE TALLAS */
 add_size_btn.addEventListener('click', () => {
@@ -140,7 +168,7 @@ add_prod_ref_btn.addEventListener('click', () => {
 
         prod_rel.push(ref);
         addProductRef(ref);
-        console.log(prod_rel)
+
         const delete_btn_ref = document.querySelectorAll('.btn-delete-ref');
         setEventToDeleteRef(delete_btn_ref);
     }
@@ -149,8 +177,7 @@ add_prod_ref_btn.addEventListener('click', () => {
 
 
 function addProductSize(s) {
-    //contenedor donde se añaden los datos
-    const size_box = document.getElementById('tallas-contenedor');
+    
     size_box.innerHTML += 
         `<ul class="conditions-list-body" id="${s.id}">
             <li>Talla: ${s.talla_text}</li>
@@ -165,8 +192,7 @@ function addProductSize(s) {
 }
 
 function addProductRef(s) {
-    //contenedor donde se añaden los datos
-    const ref_box = document.getElementById('ref-product-contenedor');
+    
     ref_box.innerHTML += 
         `<ul class="conditions-list-body" id="${s.id}">
             <li>Referencia: ${s.id}</li>
@@ -210,3 +236,21 @@ function borrarCondicion(event, arr) {
     document.getElementById(id).remove();
 }
 
+//FUNCIONALIDADES DE LA FIJACION DE PRECIOS
+
+precio_sin_iva.addEventListener('change', () => {
+    if(precio_sin_iva.value != '') {
+        const precio = new Decimal(parseFloat(precio_sin_iva.value));
+        const iva_value = 1 + parseFloat(iva.value);
+        precio_con_iva.value = `${precio.mul(iva_value).toNumber().toFixed(2)}`;
+    }
+});
+
+
+precio_con_iva.addEventListener('change', () => {
+    if(precio_con_iva.value != '') {
+        const iva_value = 1 + parseFloat(iva.value);
+        const precio = new Decimal(parseFloat(precio_con_iva.value));
+        precio_sin_iva.value = `${precio.dividedBy(iva_value).toNumber().toFixed(2)}`;
+    }
+});

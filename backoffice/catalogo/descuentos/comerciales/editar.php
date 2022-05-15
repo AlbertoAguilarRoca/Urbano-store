@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../../../security/controlAccess.php';
 include_once __DIR__ . '/../../../model/managers/GenericManager.php';
+include_once __DIR__ . '/../../../model/managers/RulesManager.php';
 
 $controlAccess = new ControlAccess();
 if ($controlAccess->getUser() == null) {
@@ -9,10 +10,10 @@ if ($controlAccess->getUser() == null) {
     exit;
 }
 
-if($_SESSION['user']['permiso'] == '3') {
-    header("Location: /urban/backoffice/catalogo/descuentos/comerciales/");
-    exit;
-}
+$rulesManager = new RulesManager();
+
+$rule = $rulesManager -> getRuleById($_GET['id_regla']);
+$rule_cond = $rulesManager -> getRuleCondById($_GET['id_regla']);
 
 ?>
 
@@ -23,12 +24,12 @@ if($_SESSION['user']['permiso'] == '3') {
 
         <div class="content-breadcrumb-box">
             <div class="breadcrumbs">
-                <p><a href="http://localhost/urban/backoffice/catalogo/">Dashboard</a> / <a href="http://localhost/urban/backoffice/catalogo/descuentos/comerciales/">Reglas Comerciales</a> / Añadir Regla Comercial</p>
+                <p><a href="http://localhost/urban/backoffice/catalogo/">Dashboard</a> / <a href="http://localhost/urban/backoffice/catalogo/descuentos/comerciales/">Reglas Comerciales</a> / Editar Regla Comercial</p>
             </div>
         </div>
 
         <div class="content-header">
-            <h1 class="content-title">Añadir Regla Comercial</h1>
+            <h1 class="content-title">Editar Regla Comercial</h1>
         </div>
 
         <div class="content-description">
@@ -40,7 +41,7 @@ if($_SESSION['user']['permiso'] == '3') {
                 <ul>
                     <li><a href="http://localhost/urban/backoffice/catalogo/descuentos/comerciales/">Reglas comerciales</a></li>
                     <li><a href="http://localhost/urban/backoffice/catalogo/descuentos/codigos/">Códigos descuento</a></li>
-                    <li><a href="http://localhost/urban/backoffice/catalogo/descuentos/comerciales/nuevo.php" class="active-item"><i class="bi bi-plus"></i> Añadir Regla Comercial</a></li>
+                    <li><a href="http://localhost/urban/backoffice/catalogo/descuentos/comerciales/nuevo.php"><i class="bi bi-plus"></i> Añadir Regla Comercial</a></li>
                 </ul>
             </div>
         </div>
@@ -55,9 +56,11 @@ if($_SESSION['user']['permiso'] == '3') {
 
             <form class="form-element" id="form-regla-comercial">
 
+                <input type="hidden" name="_method" value="put">
+
                 <div class="form-group" data-required="true" data-type="text">
                     <label for="nombre" class="form-label">Nombre *</label>
-                    <input type="text" class="form-input" name="nombre" maxlength="100" autocomplete="off">
+                    <input type="text" class="form-input" name="nombre" maxlength="100" autocomplete="off" value="<?php echo $rule['nombre']; ?>">
 
                     <p class="input-error-info">El nombre no puede estar vacío.</p>
 
@@ -70,23 +73,23 @@ if($_SESSION['user']['permiso'] == '3') {
                 <div class="form-group pb-5" data-required="true" data-type="select">
                     <label for="grupo" class="form-label">Grupo *</label>
                     <select class="form-select-rules" name="grupo">
-                        <option value="todos">Todos</option>
-                        <option value="invitados">Invitados</option>
-                        <option value="registrados">Registrados</option>
+                        <option value="todos" <?php if($rule['grupo'] == 'todos') {echo 'selected';} ?>>Todos</option>
+                        <option value="invitados" <?php if($rule['grupo'] == 'invitados') {echo 'selected';} ?>>Invitados</option>
+                        <option value="registrados" <?php if($rule['grupo'] == 'registrados') {echo 'selected';} ?>>Registrados</option>
                     </select>
                     <p class="input-error-info">Debes realizar una selección.</p>
                 </div>
 
                 <div class="form-group pb-5" data-required="true" data-type="date">
                     <label for="fecha_inicio" class="form-label">Fecha de inicio *</label>
-                    <input class="form-date" type="datetime-local" min="<?php echo date('Y-m-d').'T'.date('h:i'); ?>" class="form-date" name="fecha_inicio">
+                    <input class="form-date" type="datetime-local" class="form-date" name="fecha_inicio" value="<?php echo str_replace(' ', 'T', $rule['fecha_inicio']); ?>">
                         
                     <p class="input-error-info">Debes incluir una fecha válida.</p>
                 </div>
 
                 <div class="form-group pb-5" data-required="true" data-type="date">
                     <label for="fecha_fin" class="form-label">Fecha de fin *</label>
-                    <input class="form-date" type="datetime-local"min="<?php echo date('Y-m-d').'T'.date('h:i'); ?>" class="form-date" name="fecha_fin">
+                    <input class="form-date" type="datetime-local"min="<?php echo date('Y-m-d').'T'.date('h:i'); ?>" class="form-date" name="fecha_fin" value="<?php echo str_replace(' ', 'T', $rule['fecha_fin']); ?>">
                         
                     <p class="input-error-info">Debes incluir una fecha válida.</p>
                 </div>
@@ -94,8 +97,8 @@ if($_SESSION['user']['permiso'] == '3') {
                 <div class="form-group pb-5" data-required="true" data-type="select">
                     <label for="grupo" class="form-label">Tipo de reducción *</label>
                     <select class="form-select-rules" name="tipo_reduccion">
-                        <option value="porcentaje">Porcentaje</option>
-                        <option value="cantidad-fija">Cantidad fija</option>
+                        <option value="porcentaje" <?php if($rule['tipo_reduccion'] == 'porcentaje') {echo 'selected';} ?>>Porcentaje</option>
+                        <option value="cantidad-fija" <?php if($rule['tipo_reduccion'] == 'cantidad-fija') {echo 'selected';} ?>>Cantidad fija</option>
                     </select>
                     <p class="input-error-info">Debes realizar una selección.</p>
                 </div>
@@ -103,8 +106,8 @@ if($_SESSION['user']['permiso'] == '3') {
                 <div class="form-group pb-5" data-required="true" data-type="select">
                     <label for="grupo" class="form-label">Tasas incluidas *</label>
                     <select class="form-select-rules" name="tasas_incluidas">
-                        <option value="excluidas">Excluidas</option>
-                        <option value="incluidas">Incluidas</option>
+                        <option value="excluidas" <?php if($rule['tasas_incluidas'] == 'excluidas') {echo 'selected';} ?>>Excluidas</option>
+                        <option value="incluidas" <?php if($rule['tasas_incluidas'] == 'incluidas') {echo 'selected';} ?>>Incluidas</option>
                     </select>
                     <p class="input-error-info">Debes realizar una selección.</p>
                     <div class="form-group-info">
@@ -114,7 +117,7 @@ if($_SESSION['user']['permiso'] == '3') {
 
                 <div class="form-group" data-required="true" data-type="text">
                     <label for="nombre" class="form-label">Reducción *</label>
-                    <input type="text" class="form-input" name="reduccion" autocomplete="off" value="0.0">
+                    <input type="text" class="form-input" name="reduccion" autocomplete="off" value="<?php echo $rule['reduccion'] ?>">
 
                     <p class="input-error-info">Formato incorrecto.</p>
 
@@ -125,8 +128,17 @@ if($_SESSION['user']['permiso'] == '3') {
 
 
                 <div class="form-submit">
+                    <?php 
+                        //Solo los administradores podrán borrar
+                        $permiso = intval($_SESSION['user']['permiso']);
+                        if($permiso == 1) { 
+                    ?>
+                    <button class="form-delete-btn" type="button">Eliminar</button>
+                    <?php 
+                        }
+                    ?>
                     <button class="form-cancel-btn"><a href="http://localhost/urban/backoffice/catalogo/descuentos/comerciales/">Cancelar</a></button>
-                    <button class="form-submit-btn" type="submit">Añadir regla comercial</button>
+                    <button class="form-submit-btn" type="submit">Editar regla comercial</button>
                 </div>
 
             </form>
@@ -150,7 +162,23 @@ if($_SESSION['user']['permiso'] == '3') {
                 </ul>
 
                 <!-- aquí van las condiciones -->
-                <div id="conditions"></div>
+                <div id="conditions"><?php
+                    //condiciones traidas desde php
+
+                    for($i = 0; $i < $rule_cond -> num_rows; $i++) {
+                        $fila = $rule_cond -> fetch_assoc();
+
+                        echo '<ul class="conditions-list-body" id="'.$fila['tipo'].'_'.$fila['valor_id'].'" data-tipo="'.$fila['tipo'].'" data-valor-id="'.$fila['valor_id'].'" data-valor-nombre="'.$fila['valor_nombre'].'">
+                        <li>'.getConditionType($fila['tipo']).'</li>
+                        <li>'.$fila['valor_nombre'].'</li>
+                        <li>
+                            <button data-id="'.$fila['tipo'].'_'.$fila['valor_id'].'" class="btn-condition-delete" >
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </li>
+                        </ul>';
+                    }
+                ?></div>
 
             </div>
             
@@ -293,7 +321,51 @@ if($_SESSION['user']['permiso'] == '3') {
 </div>
 
 </div> <!--Final del container principal-->
+<!-- area de confirmación de borrado -->
+<div class="overlay-delete">
+    <button id="close-form-delete" class="close-form-delete">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <div class="confirm-delete">
+        <div class="icon-warning">
+            <i class="bi bi-exclamation-octagon"></i>
+        </div>
+        <h2>¿Seguro que deseas eliminar?</h2>
+        <p class="form-delete-text-info">Borrar una regla comercial es irreversible. También borrarás sus condiciones. ¿Deseas continuar?</p>
+        <p class="form-delete-text-info">Escribe '<span class="type-delete" id="type-delete">Eliminar regla comercial</span>' para continuar.</p>
+        <form id="form-delete">
+            <div class="form-group" data-required="true" data-type="delete">
+                <input type="text" class="form-input" name="delete" autocomplete="off" data-content-delete="Eliminar regla comercial">
 
+                <p class="input-error-info">Debes escribir el texto exacto.</p>
+            </div>
+            <div class="form-submit">
+                <button class="form-delete-btn" type="submit">Confirmar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<?php
+    function getConditionType($string) {
+        switch ($string) {
+            case 'categorias':
+                return 'Categoría';
+            case 'subcategorias':
+                return 'Subcategoría';
+            case 'colores':
+                return 'Color';
+            case 'genero':
+                return 'Género';
+            case 'marcas':
+                return 'Marcas';
+            default:
+                break;
+        }
+    }
+?>
+
+<script src="<?php echo "http://" . $_SERVER['SERVER_NAME'] . "/urban/backoffice/js/helpers/handleDeletePopup.js"; ?>"></script>
 <script type="module" src="<?php echo "http://" . $_SERVER['SERVER_NAME'] . "/urban/backoffice/js/descuentos/reglasComerciales.js"; ?>"></script>
 
 <?php require_once __DIR__ . '/../../../footer.php'; ?>

@@ -76,10 +76,20 @@ function selectValidation(type, input) {
             return validatePhone(input);
         case 'date':
             return validateDate(input);
+        case 'file':
+            return validateFileInput(input);
 
         default:
             console.error('Error en la validación de un input -> ' + type);
             break;
+    }
+}
+
+const validateFileInput = (input) => {
+    if(input.files.length === 0) {
+        return false;
+    } else {
+        return true;
     }
 }
 
@@ -338,6 +348,8 @@ const searchElement = (group) => {
         elemento = group.querySelector('.form-select-rules');
     } else if (group.querySelector('.form-date')) {
         elemento = group.querySelector('.form-date');
+    } else if (group.querySelector('.form-file-img')) {
+        elemento = group.querySelector('.form-file-img');
     } else if (group.querySelectorAll('.form-select-date-input')) {
         elemento = group.querySelectorAll('.form-select-date-input');
     }

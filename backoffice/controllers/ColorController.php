@@ -4,6 +4,12 @@ require_once __DIR__ . '/../security/controlAccess.php';
 require_once __DIR__ . '/../model/managers/ColorManager.php';
 include_once __DIR__ . '/../helpers/validateData.php';
 
+$controlAccess = new ControlAccess();
+if ($controlAccess->getUser() == null) {
+    header("Location: /urban/backoffice/login.php");
+    exit;
+}
+
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 $color = new ColorManager();
 $codigo = $nombre = '';

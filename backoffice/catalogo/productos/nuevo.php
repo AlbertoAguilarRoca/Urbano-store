@@ -110,7 +110,7 @@ $tallas = $genericManager->getSizes();
                                     }
                                     ?>
                                 </select>
-                                <p class="input-error-info">Debes seleccionar una marca.</p>
+                                <p class="input-error-info">Debes seleccionar un género.</p>
                             </div>
 
                         </div>
@@ -129,7 +129,7 @@ $tallas = $genericManager->getSizes();
                                 }
                                 ?>
                             </select>
-                            <p class="input-error-info">Debes seleccionar una marca.</p>
+                            <p class="input-error-info">Debes seleccionar una subcategoría.</p>
                         </div>
 
                         <div class="form-group pb-5" data-required="true" data-type="date">
@@ -154,40 +154,46 @@ $tallas = $genericManager->getSizes();
                                 </div>
                             </div>
 
-                            <div class="form-group" data-required="true" data-type="select">
-                                <label for="color" class="form-label">Color *</label>
+                            <div class="form-group">
+                                <label for="color" class="form-label">Color</label>
                                 <select class="form-select" name="color">
-                                    <option value="" disabled selected></option>
                                     <?php
                                     for ($i = 0; $i < $colores->num_rows; $i++) {
                                         $fila = $colores->fetch_assoc();
 
-                                        echo "<option value='" . $fila['id'] . "'>" . $fila['nombre'] . "</option>";
+                                        if($fila['id'] == '0') {
+                                            echo "<option selected value='" . $fila['id'] . "'>" . $fila['nombre'] . "</option>";
+                                        } else {
+                                            echo "<option value='" . $fila['id'] . "'>" . $fila['nombre'] . "</option>";
+                                        }
+                                        
                                         
                                     }
                                     ?>
                                 </select>
-                                <p class="input-error-info">Debes seleccionar una marca.</p>
                             </div>
                         </div> <!-- fin product form col group color y estatus-->
+                        <div class="form-group-info">
+                                <span>Si el producto lleva asociado una marca o subcategoría inactiva, el producto se creará inactivo.</span>
+                            </div>
 
                         <div class="product-form-col-group">
                             
-                            <div class="form-group pr-5" data-required="true" data-type="price">
+                            <div class="form-group pr-5" data-required="true" data-type="text">
                                 <label for="precio" class="form-label">Precio sin IVA *</label>
                                 <input type="text" class="form-input" name="precio" autocomplete="off" id="precio-sin">
 
                                 <p class="input-error-info">Debes incluir un precio.</p>
                             </div>
 
-                            <div class="form-group pr-5" data-required="true" data-type="price">
+                            <div class="form-group pr-5" data-required="true" data-type="text">
                                 <label for="precio" class="form-label">Precio con IVA *</label>
                                 <input type="text" class="form-input" autocomplete="off" id="precio-con">
                             </div>
 
                             <div class="form-group pl-5" data-required="true" data-type="select">
                                 <label for="iva" class="form-label">Tipo IVA *</label>
-                                <select class="form-select" name="iva">
+                                <select class="form-select" name="iva" id="iva">
                                     <option value="0">Sin IVA (0%)</option>
                                     <option value="0.04">IVA Superredicodo (4%)</option>
                                     <option value="0.10">IVA Reducido (10%)</option>
@@ -197,7 +203,7 @@ $tallas = $genericManager->getSizes();
 
                         </div> <!-- fin product form col group precios-->
                         <div class="form-group-info">
-                            <span>El único separador de decimales permitidos es el punto.</span> 
+                            <span>El único separador de decimales permitidos es el punto. El número máximo de decimales será de dos.</span> 
                         </div>
 
                         <label for="size" class="form-label">Tallas *</label>
@@ -260,7 +266,7 @@ $tallas = $genericManager->getSizes();
 
                         <div class="form-group" data-required="true" data-type="file">
                             <label for="imagenes_producto" class="form-label">Imágenes del producto *</label>
-                            <input type="file" id="file-input" class="form-file-img" name="imagenes_producto" accept="image/png, image/jpeg, image/jpg" multiple>
+                            <input type="file" id="file-input" class="form-file-img" name="imagenes_producto[]" accept="image/png, image/jpeg, image/jpg" multiple>
 
                             <div class="form-display-images" id="display-images">
  
@@ -278,16 +284,17 @@ $tallas = $genericManager->getSizes();
                                 </button>
                             </div>
 
-                            <p class="input-error-info">Error.</p>
+                            <p class="input-error-info">Debes incluir al menos una imagen.</p>
 
                             <div class="form-group-info">
-                                <span>Como mínimo, debes añadir una imagen del producto. Solo estarán permitidas las extensiones .jpg y .png. Por favor, ten en cuenta la optimización de las imágenes al subirlas, ya que puede afectar al rendimiento de la página.</span>
+                                <span>Como mínimo, debes añadir una imagen del producto. Solo estarán permitidas las extensiones .jpg y .png. Por favor, ten en cuenta la optimización de las imágenes al subirlas, ya que puede afectar al rendimiento de la página. En caso de querer modificar las imágenes subidas, vuelve a añadirlas.</span>
                             </div>
                         </div>
 
                         <div class="form-group" data-required="true" data-type="text">
                             <label for="resumen" class="form-label">Resumen *</label>
                             <textarea class="form-input" name="resumen" maxlength="300" rows="5"></textarea>
+                            <p class="input-error-info">Campo vacío.</p>
                             <div class="form-group-info">
                                 <span>Resumen de las cualidades principales del producto. Los caracteres especiales como {};/<> serán transformados por seguridad.</span>
                                 <span class="input-length-counter">0/300</span>
@@ -297,9 +304,11 @@ $tallas = $genericManager->getSizes();
                         <div class="form-group" data-required="true" data-type="text">
                             <label for="caracteristicas" class="form-label">Características *</label>
                             <textarea class="form-input" name="caracteristicas" maxlength="500" rows="7"></textarea>
+                            <p class="input-error-info">Campo vacío.</p>
                             <div class="form-group-info">
                                 <span>En las características puedes describir los detalles más técnicos del producto, como los materiales, procedencia, marca, etc. Los caracteres especiales como {};/<> serán transformados por seguridad.</span>
                                 <span class="input-length-counter">0/500</span>
+                                
                             </div>
                         </div>
 
@@ -322,6 +331,7 @@ $tallas = $genericManager->getSizes();
 </div>
 <!--Final del container principal-->
 
+<script src="<?php echo "http://" . $_SERVER['SERVER_NAME'] . "/urban/backoffice/js/helpers/decimal.js"; ?>"></script>
 <script src="<?php echo "http://" . $_SERVER['SERVER_NAME'] . "/urban/backoffice/js/helpers/handleStatusInput.js"; ?>"></script>
 <script type="module" src="<?php echo "http://" . $_SERVER['SERVER_NAME'] . "/urban/backoffice/js/producto/productos.js"; ?>"></script>
 

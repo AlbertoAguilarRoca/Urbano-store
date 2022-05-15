@@ -1,16 +1,19 @@
 /* Archivo para gestionar las condiciones de los descuentos comerciales */
 
-import {formValidation} from '../helpers/formValidation.js';
+import {formValidation, setMessageInfo} from '../helpers/formValidation.js';
 import { lenthCounterForm, setLengthToInitial } from "../helpers/lengthCounterInput.js";
 
 
-const condiciones = [];
+let condiciones = [];
 const cond_container = document.getElementById('condiciones_container');
 const cond_total = document.getElementById('conditions-length');
 const rules_btn = document.querySelectorAll('.rules-btn');
 const cond_included_box = document.getElementById('conditions');
 const form = document.getElementById('form-regla-comercial');
 const formGroups = form.querySelectorAll('.form-group');
+const formDelete = document.getElementById('form-delete');
+const btn_delete_edit = document.querySelectorAll('.btn-condition-delete');
+const list_conditions = document.querySelectorAll('.conditions-list-body');
 
 formGroups.forEach((group) => {
     const input = group.querySelector('.form-input');
@@ -23,15 +26,46 @@ formGroups.forEach((group) => {
         lenthCounterForm(group);
 });
 
-form.addEventListener('submit', (e) => {
+form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     if(formValidation(form)) {
-        console.log('Formulario valido');
+        const formData = new FormData(form);
+        const resp = await sendData(formData);
+
+        //Establece el contador de caracteres a 0
+        if(resp)  {
+            setLengthToInitial();
+            cond_included_box.innerHTML = '';
+            isConditionsAdded();
+            cond_total.innerText = '(' + condiciones.length + ')';
+            condiciones = [];
+        }
+        setMessageInfo(resp, form);
     } else {
         console.log('Formulario NO valido');
     }
 });
+
+const sendData = async (formData) => {
+    /* añado el id de la marca */
+    const params = new URLSearchParams(document.location.search);
+    const id = params.get('id_regla');
+
+    if(condiciones.length > 0) {
+        formData.append('condiciones', JSON.stringify(condiciones));
+    }
+
+    const resp = await fetch(`http://localhost/urban/backoffice/controllers/RulesController.php?id_regla=${id}`, {
+        method: 'POST',
+        body: formData,
+    });
+
+    const data = await resp.json();
+
+    //Si retorna true se subio correctamente
+    return data;
+}
 
 
 //compruebo si hay condiciones incluidas (parte de edicion)
@@ -134,7 +168,57 @@ function getConditionType(data) {
 function setEventToBtn(delete_btn) {
     delete_btn.forEach( (btn) => {
         btn.addEventListener('click', (e) => {
-            borrarCondicion(e)
+            borrarCondicion(e);
         });
+    });
+}
+
+/* Cuando se quiera editar, debe haber un listener habilitado desde el momento que se carga, y rellenar el array de condiciones con las que ya trae de la bd */
+if(btn_delete_edit) {
+    btn_delete_edit.forEach( (btn) => {
+        btn.addEventListener('click', (e) => {
+            borrarCondicion(e);
+        });
+    });
+}
+
+if(list_conditions) {
+    list_conditions.forEach( cond => {
+        const tipo = cond.getAttribute('data-tipo');
+        const valor_id = cond.getAttribute('data-valor-id');
+        const valor_nombre = cond.getAttribute('data-valor-nombre');
+    
+        condiciones.push({
+            tipo: tipo, //tipo de condicionen mayus
+            id: valor_id, //id del elemento condicional
+            valor: valor_nombre, //texto del elemento
+        });
+    });
+}
+
+if(formDelete) {
+    formDelete.addEventListener('submit', async (e) => {
+        e.preventDefault();
+    
+        if (formValidation(formDelete)) {
+            const params = new URLSearchParams(document.location.search);
+            const id = params.get('id_regla');
+            const resp = await fetch(`http://localhost/urban/backoffice/controllers/RulesController.php?id_regla=${id}`, {
+                method: 'DELETE'
+            });
+    
+            const data = await resp.json();
+    
+            if (data === true) {
+                window.location = 'http://localhost/urban/backoffice/catalogo/descuentos/comerciales/';
+                console.log('Borrado correcto');
+            } else {
+                alert('Error al borrar: ' + data);
+            }
+    
+        } else {
+            console.log('Email con errores.');
+        }
+    
     });
 }
