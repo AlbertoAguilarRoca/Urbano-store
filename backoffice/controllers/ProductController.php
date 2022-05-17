@@ -228,6 +228,38 @@ if($requestMethod == 'POST') {
     $resp = $productManager -> delete($ref);
 
     echo json_encode($resp);
-}
+} else if($requestMethod == 'GET') {
+    $gen = $_GET['gen'];
+    $subcategoria = $_GET['subcategoria'];
+    $resp = [];
+    $limit = 0;
 
+    $sql = "SELECT distinct(p.referencia) as referencia, p.nombre as nombre, m.nombre as marca, p.color, p.precio as precio, p.iva as iva 
+    FROM productos p, marcas m, tallasproductos tp
+    WHERE p.referencia = tp.ref_producto AND m.id = p.marca AND 
+    p.subcategoria = $subcategoria AND p.genero = $gen AND p.estado = 1 ";
+
+    if(isset($_GET['colores'])) {
+        $sql = $sql . ' AND p.color IN (' . $_GET['colores'] . ') ';
+    }
+
+    if(isset($_GET['tallas'])) {
+        $sql = $sql . ' AND tp.id_talla IN (' . $_GET['tallas'] . ') ';
+    }
+
+    $resp['size'] = $productManager -> countStockProduct($sql);
+    
+    if(isset($_GET['limit'])) {
+        $limit = $_GET['limit'];
+    }
+
+    $sql = $sql . 'LIMIT ' . $limit . ', 6';
+
+
+    $resp['productos'] = $productManager -> getProductFrontSub($sql);
+    $resp['sub_name'] = $productManager -> getSubcategoryName($subcategoria);
+
+    echo json_encode($resp);
+}
+ 
 ?>

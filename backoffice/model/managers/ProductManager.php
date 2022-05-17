@@ -19,6 +19,78 @@ require_once __DIR__ .'/../connection/Db.php';
             return $this -> error_sql;
         }
 
+        function getProductFrontSub($consulta) {
+
+            $resultado = $this -> getConnection() -> query($consulta);
+
+            $data = [];
+            $data_filter = [];
+            $contador = 0;
+
+            for($i = 0; $i < $resultado -> num_rows; $i++) {
+
+                $data[$i] = $resultado -> fetch_assoc();
+                //compruebo si tiene stock
+                $stock_producto = $this -> checkProductStock($data[$i]['referencia']);
+
+                //si tiene stock, lo meto
+                if(intval($stock_producto) > 0) {
+
+                    $data_filter[$contador] = $data[$i];
+                    $imgProduc = $this -> getOneProductImgById($data_filter[$contador]['referencia']);
+                    $data_filter[$contador]['img'] = base64_encode($imgProduc['img']);
+                    $data_filter[$contador]['tipo'] = $imgProduc['tipo'];
+                    $data_filter[$contador]['img_nombre'] = $imgProduc['nombre'];
+                    $contador++;
+                }
+            }
+
+            return $data_filter;
+        }
+
+        function getSubcategoryName($sub) {
+            $sql = "SELECT nombre from subcategorias WHERE id = $sub";
+
+            $resultado = $this -> getConnection() -> query($sql);
+            $data = $resultado -> fetch_assoc();
+
+            return $data['nombre'];
+        }
+
+        function countStockProduct($consulta) {
+            $resultado = $this -> getConnection() -> query($consulta);
+            $contador = 0;
+
+            for($i = 0; $i < $resultado -> num_rows; $i++) {
+                $fila = $resultado -> fetch_assoc();
+                //compruebo si tiene stock
+                $stock_producto = $this -> checkProductStock($fila['referencia']);
+                //si tiene stock, lo meto
+                if(intval($stock_producto) > 0) {
+                    $contador++;
+                }
+            }
+
+            return $contador;
+
+        }
+
+        function checkProductStock($ref) {
+            $sql = "SELECT sum(cantidad) as total FROM tallasproductos WHERE ref_producto = '$ref'";
+
+            $resultado = $this -> getConnection() -> query($sql);
+            $data = $resultado -> fetch_assoc();
+            return $data['total'];
+        }
+
+        function getOneProductImgById($ref) {
+            $sql = "SELECT img, tipo, nombre FROM imagenesproductos WHERE referencia = '$ref' LIMIT 1";
+
+            $resultado = $this -> getConnection() -> query($sql);
+            $data = $resultado -> fetch_assoc();
+            return $data;
+        }
+
         function getProducts($order = 'estado', $sort = 'ASC', $inicio = 0, $registros_x_pagina = 100) {
             $sql = "SELECT p.referencia, p.nombre, m.nombre as marca , sc.nombre as subcategoria, p.precio, p.iva,
             round(p.precio * (1 + iva), 2) as 'precio_con_iva', 
