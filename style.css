@@ -773,6 +773,251 @@ a img {
     font-weight: 700;
 }
 
+/*!carrito de la compra*/
+
+.carrito {
+    padding: 15px;
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+.no_products_msg.products_added {
+    display: none;
+}
+
+.promocional_cod_info {
+    padding: 20px;
+    background-color: rgba(202, 25, 25, 0.3);
+    border-radius: 5px;
+    display: none;
+}
+
+.promocional_cod_info.error {
+    display: block;
+}
+
+.promocional_cod_info p {
+    color: rgb(202, 25, 25);
+    text-align: center;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+/*TODO CLASES CUANDO NO HAY PROD.*/
+
+.carrito_content.no_product_added {
+    display: none;
+}
+
+.carrito_content {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.carrito_product_detail {
+    display: flex;
+    padding: 30px 0;
+    position: relative;
+    border-top: 1px solid black;
+}
+
+.delete_prod {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--grey-light-bg);
+    color: black;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.carrito_prod_img {
+    width: 175px;
+    height: 175px;
+}
+
+.carrito_prod_img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carrito_product_info {
+    padding-left: 5%;
+    flex: 1 1 60%;
+}
+
+.carrito_product_title {
+    margin: 0;
+    text-transform: uppercase;
+    font-size: 22px;
+    max-width: 360px;
+}
+
+.carrito_product_info ul {
+    padding: 15px 0;
+}
+
+.carrito_product_info ul .carrito_product_list_item {
+    font-size: 14px;
+    color: var(--grey-light);
+}
+
+.carrito_prod_cantidad input {
+    display: block;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.carrito_prod_cantidad span {
+    font-size: 14px;
+    color: rgb(202, 25, 25);
+    padding: 5px 0;
+    display: none;
+}
+
+.carrito_prod_cantidad.no_stock {
+    display: block;
+}
+
+.carrito_product_price {
+    align-self: center;
+    flex: 1 1 20%;
+}
+
+.carrito_product_price span {
+    font-size: 14px;
+    font-weight: 700;
+    white-space: unset;
+}
+
+.carrito_pay {
+    padding: 20px;
+    background-color: var(--grey-light-bg);
+}
+
+.codigo_pro {
+    padding: 10px 0;
+}
+
+.codigo_pro .codigo_title {
+    text-transform: uppercase;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.codigo_pro input {
+    width: 93%;
+    padding: 10px;
+    font-size: 16px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.promo_btn {
+    background-color: black;
+    color: white;
+    width: 100%;
+    display: block;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 700;
+    cursor: not-allowed;
+}
+
+.promo_btn:disabled {
+    opacity: 0.5;
+}
+
+.subtotal_price,
+.total_price,
+.shipping_price {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+.subtotal_price {
+    margin-top: 30px;
+    font-weight: 700;
+}
+
+.total_price {
+    padding: 20px 10px;
+    margin-top: 20px;
+    background-color: var(--grey-light);
+    text-transform: uppercase;
+    font-size: 16px;
+}
+
+.tax_info {
+    font-size: 12p  x;
+    text-transform: capitalize;
+}
+
+.shipping_info .shipping_text,
+.shipping_info .refund_text {
+    display: flex;
+}
+
+.shipping_icon, 
+.refund_icon {
+    flex-basis: 40px;
+    font-size: 20px;
+}
+.shipping_info .shipping_text p,
+.shipping_info .refund_text p {
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+
+.pay_btn_box {
+    padding: 30px 0;
+}
+
+.pay_btn_box .pay_btn {
+    width: 100%;
+    background-color: rgb(202, 25, 25);
+    color: white;
+    text-transform: uppercase;
+    font-size: 16px;
+    padding: 15px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.pay_methods {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px 0;
+}
+
+.method {
+    width: 85px;
+    height: 45px;
+    border-radius: 5px;
+    border: 1px solid var(--grey-light);
+    padding: 5px;
+    margin: 10px;
+    background-color: white;
+}
+
+.method img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
 /* loader */
 .loading {
     background-color: rgba(0, 0, 0, 0.8);
@@ -924,6 +1169,20 @@ a img {
 
     .shipping_text, .refund_text {
         padding: 10px 0;
+    }
+
+    /*!carrito*/
+    .carrito_content {
+        flex-direction: row;
+    }
+
+    .carrito_products {
+        flex: 1 1 80%;
+        padding-right: 10px;
+    }
+
+    .carrito_product_price span {
+        font-size: 20px;
     }
 
 }

@@ -119,8 +119,6 @@ addBtn.addEventListener('click', () => {
     let productos_carrito = [];
     const sesion_productos = sessionStorage.getItem('carrito');
 
-    console.log(sesion_productos);
-
     if(sesion_productos) {
         productos_carrito = JSON.parse(sesion_productos);
     }
@@ -141,7 +139,14 @@ addBtn.addEventListener('click', () => {
     productos_carrito.push({
         ref: producto_info.referencia,
         cantidad: 1,
-        talla_id: select_size.value
+        talla_id: select_size.value,
+        img: producto_info.imagenes[0].img,
+        tipo: producto_info.imagenes[0].tipo,
+        nombre: producto_info.imagenes[0].nombre,
+        color: producto_info.info.color,
+        precio: producto_info.info.precio,
+        iva: producto_info.info.iva,
+        talla_text: select_size.options[select_size.selectedIndex].text
     });
 
     sessionStorage.setItem('carrito', JSON.stringify(productos_carrito));

@@ -41,8 +41,10 @@
             </div>
 
             <div class="cesta_compra">
-                <span class="cesta_productos no_products" id="total_productos_cesta"></span>
-                <i class="bi bi-bag"></i>
+                <a href="http://localhost/urban/carrito.php">
+                    <span class="cesta_productos no_products" id="total_productos_cesta"></span>
+                    <i class="bi bi-bag"></i>
+                </a>
             </div>
 
         </div>
