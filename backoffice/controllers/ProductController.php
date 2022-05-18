@@ -1,15 +1,8 @@
 <?php
 
-require_once __DIR__.'/../security/controlAccess.php';
 require_once __DIR__ .'/../model/managers/ProductManager.php';
 include_once __DIR__.'/../helpers/validateData.php';
 include_once __DIR__.'/../helpers/Referencia.php';
-
-$controlAccess = new ControlAccess();
-if ($controlAccess->getUser() == null) {
-    header("Location: /urban/backoffice/login.php");
-    exit;
-}
 
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 $productManager = new ProductManager();

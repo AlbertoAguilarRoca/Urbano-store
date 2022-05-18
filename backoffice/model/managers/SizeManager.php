@@ -27,6 +27,17 @@ require_once __DIR__ .'/../connection/Db.php';
             return $resultado;
         }
 
+        public function getAllSizesToFront($min, $max) {
+            $sql = "SELECT id, talla FROM tallas WHERE id >= $min AND id <= $max";
+
+            $resultado = $this -> getConnection() -> query($sql);
+            $data= [];
+            for ($i=0; $i < $resultado -> num_rows; $i++) { 
+                $data[$i] = $resultado -> fetch_assoc();
+            }
+            return $data;
+        }
+
         public function getSizeById($id) {
             $sql = "SELECT id, talla FROM tallas WHERE id=$id";
 

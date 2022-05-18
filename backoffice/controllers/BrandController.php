@@ -4,12 +4,6 @@ require_once __DIR__.'/../security/controlAccess.php';
 require_once __DIR__ .'/../model/managers/BrandManager.php';
 include_once __DIR__.'/../helpers/validateData.php';
 
-$controlAccess = new ControlAccess();
-if ($controlAccess->getUser() == null) {
-    header("Location: /urban/backoffice/login.php");
-    exit;
-}
-
     $requestMethod = $_SERVER['REQUEST_METHOD'];
     $brandManager = new BrandManager();
 

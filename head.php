@@ -41,7 +41,7 @@
             </div>
 
             <div class="cesta_compra">
-                <span class="cesta_productos" id="total_productos_cesta">2</span>
+                <span class="cesta_productos no_products" id="total_productos_cesta"></span>
                 <i class="bi bi-bag"></i>
             </div>
 

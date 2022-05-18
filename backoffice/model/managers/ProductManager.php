@@ -19,6 +19,29 @@ require_once __DIR__ .'/../connection/Db.php';
             return $this -> error_sql;
         }
 
+        function infoProduc($ref) {
+            $sql = "SELECT p.nombre, m.nombre as marca, p.precio, 
+            p.iva, p.resumen, p.caracteristicas, p.subcategoria, c.nombre as color
+            FROM productos p, marcas m, colores c
+            WHERE p.color = c.id AND m.id = p.marca AND p.referencia = '$ref'";
+
+            $resultado = $this -> getConnection() -> query($sql);
+            $data = $resultado -> fetch_assoc();
+            return $data;
+        }
+
+        //funcion para comprobar la categoria asociada y mostrar en el producto las tallas correspondientes. Ej, si es ropa, mostrar solo XS-XXL
+        function getCategoryFromSc($id) {
+            $sql = "SELECT sc.id_categoria as id
+            FROM categorias c, subcategorias sc
+            WHERE c.id = sc.id_categoria AND sc.id = $id";
+
+            $resultado = $this -> getConnection() -> query($sql);
+            $data = $resultado -> fetch_assoc();
+
+            return $data['id'];
+        }
+
         function getProductFrontSub($consulta) {
 
             $resultado = $this -> getConnection() -> query($consulta);
@@ -138,6 +161,46 @@ require_once __DIR__ .'/../connection/Db.php';
 
             $resultado = $this -> getConnection() -> query($sql);
             return $resultado;
+        }
+
+        function getSizeProductByRef($ref) {
+            $sql = "SELECT id_talla FROM tallasproductos WHERE ref_producto = '$ref' AND cantidad > 0";
+            $resultado = $this -> getConnection() -> query($sql);
+            $data = [];
+            for ($i=0; $i < $resultado -> num_rows; $i++) {
+                $data[$i] = $resultado -> fetch_assoc();
+            }
+
+            return $data;
+        }
+
+        function getRelProdById($ref) {
+            $sql = "SELECT ref_producto_rel as ref FROM productosrelacionados WHERE ref_producto = '$ref'";
+
+            $resultado = $this -> getConnection() -> query($sql);
+            $data = [];
+            for ($i=0; $i < $resultado -> num_rows; $i++) { 
+                $data[$i] = $resultado -> fetch_assoc();
+                $img = $this -> getOneProductImgById($data[$i]['ref']);
+                $data[$i]['img'] = base64_encode($img['img']);
+                $data[$i]['tipo'] = $img['tipo'];
+                $data[$i]['nombre'] = $img['nombre'];
+            }
+            return $data;
+        }
+
+        //imagenes con los binarios descodificados
+        function getImgByIdFilter($ref) {
+            $sql = "SELECT nombre, tipo, img FROM imagenesproductos 
+            WHERE referencia = '$ref'";
+
+            $resultado = $this -> getConnection() -> query($sql);
+            $data= [];
+            for ($i=0; $i < $resultado -> num_rows; $i++) { 
+                $data[$i] = $resultado -> fetch_assoc();
+                $data[$i]['img'] = base64_encode($data[$i]['img']);
+            }
+            return $data;
         }
 
         function getProdRefById($ref) {
