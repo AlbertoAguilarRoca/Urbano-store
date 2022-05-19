@@ -20,6 +20,30 @@ include_once __DIR__ . '/../../helpers/Referencia.php';
             return $this -> error_sql;
         }
 
+        public function checkEmail($email) {
+            $sql = "SELECT count(email) as total FROM cliente WHERE email = '$email'";
+
+            $resultado = $this -> getConnection() -> query($sql);
+            $data = $resultado -> fetch_assoc();
+            return $data['total'];
+        }
+
+        public function getPassword($email) {
+            $sql = "SELECT password FROM cliente WHERE email = '$email'";
+            $resultado = $this -> getConnection() -> query($sql);
+            $data = $resultado -> fetch_assoc();
+            return $data['password'];
+        }
+
+        public function getClientId($email) {
+            $sql = "SELECT id_cliente FROM cliente WHERE email = '$email'";
+
+            $resultado = $this -> getConnection() -> query($sql);
+            $data = $resultado -> fetch_assoc();
+
+            return $data['id_cliente'];
+        }
+
         public function getAllClients($order = 'registrado', $sort = 'ASC', $inicio = 0, $registros_x_pagina = 100) {
             $sql = "SELECT id_cliente, nombre, apellido1, apellido2, email, fecha_nacimiento, registrado, subscrito, invitado FROM cliente ORDER BY $order $sort LIMIT $inicio, $registros_x_pagina";
 

@@ -30,6 +30,7 @@ p {
 :root {
     --grey-light: rgb(196, 196, 196);
     --grey-light-bg: rgb(244, 244, 244);
+    --color-error: #D73F0E;
 }
 
 /*! ************************************************************************************* HEADER ************************************************************************************* */
@@ -834,6 +835,11 @@ a img {
     cursor: pointer;
 }
 
+.delete_prod:after {
+    content: '\F78B';
+    font-family: bootstrap-icons;
+}
+
 .carrito_prod_img {
     width: 175px;
     height: 175px;
@@ -955,11 +961,13 @@ a img {
     margin-top: 20px;
     background-color: var(--grey-light);
     text-transform: uppercase;
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: 700;
 }
 
 .tax_info {
-    font-size: 12p  x;
+    font-size: 12px;
+    font-weight: 400;
     text-transform: capitalize;
 }
 
@@ -1016,6 +1024,208 @@ a img {
     width: 100%;
     height: 100%;
     object-fit: contain;
+}
+
+
+/*! ******************************************************************************************************************************************** REGISTRO Y LOGIN ******************************************************************************************************************************************** */
+.form_area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+}
+
+.form_area_info {
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center;
+    text-transform: uppercase;
+    max-width: 500px;
+}
+
+
+.form-container {
+    max-width: 800px;
+    width: 100%;
+    padding: 20px 10px;
+}
+
+.form-message {
+    margin: 20px 0;
+    padding: 20px 0;
+    border: 1px solid;
+    border-radius: 5px;
+    display: none;
+}
+
+.form-message .form-message-text {
+    text-align: center;
+}
+
+.form-message.success {
+    background-color: rgba(45, 163, 45, 0.3);
+    border-color: rgb(45, 163, 45);
+    display: block;
+}
+.form-message.success > * {
+    color: rgb(45, 163, 45);
+}
+
+.form-message.error {
+    background-color: rgba(163, 45, 45, 0.3);
+    border-color: rgb(163, 45, 45);
+    display: block;
+}
+.form-message.error > * {
+    color: rgb(163, 45, 45);
+}
+
+.form-element {
+    padding: 20px 0;
+}
+
+.form-group {
+    padding: 13px 0;
+    position: relative;
+}
+
+.form-label {
+    font-size: 12px;
+    color: black;
+}
+
+.form-label.gender {
+    display: block;
+}
+
+input[type='text'].form-input,
+input[type='password'].form-input {
+    display: block;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    color: black;
+    width: 97%;
+}
+
+.form-group-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-group-info span {
+    font-size: 14px;
+    color: var(--grey-light);
+    padding: 10px 0;
+}
+
+.form-icon-password {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: var(--grey-light-bg);
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.registro_link {
+    color: var(--grey-light);
+    text-decoration: underline;
+}
+
+/*Select de cumpleaños de clientes*/
+.form-select-date {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-select-input .form-span {
+    text-align: center;
+    font-size: 14px;
+    padding: 5px 0;
+}
+
+.form-select-input {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 25%;
+    padding: 5px 0;
+}
+
+.form-select-date-input {
+    width: 100%;
+    height: 30px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: black;
+}
+
+.form-select-date-input:focus {
+    outline: none;
+}
+
+.politica_datos {
+    font-size: 12px;
+    color: var(--grey-light);
+    margin-bottom: 15px;
+}
+
+.form-submit {
+    padding: 10px 0;
+}
+
+.form-submit-btn {
+    padding: 20px;
+    color: white;
+    background-color: black;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    width: 50%;
+    cursor: pointer;
+}
+
+
+
+
+
+.form-group.error-form .form-input {
+    border-color: var(--color-error);
+}
+
+.form-group.error-form .input-error-info {
+    display: block;
+}
+
+.input-error-info {
+    padding: 5px 0;
+    font-size: 14px;
+    color: var(--color-error);
+    display: none;
+}
+
+.input-error-info::before {
+    content: '\F431';
+    font-family: 'bootstrap-icons';
+    padding-right: 5px;
+    font-size: 12px;
+}
+
+.form-message-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 20px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
 }
 
 /* loader */
@@ -1089,6 +1299,9 @@ a img {
     }
 }
 
+
+
+
 /*! ************************************************************************************* ESCRITORIO ************************************************************************************* */
 @media (min-width: 1000px) {
 
@@ -1132,6 +1345,7 @@ a img {
 
     .gallery {
         flex-direction: row;
+        align-items: flex-start;
     }
 
     .gallery_mini {

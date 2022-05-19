@@ -6,14 +6,15 @@
     //si el carrito tiene productos, modifico el numero
     let prod_carrito = [];
     const sesion_productos = sessionStorage.getItem('carrito');
-
-    if(sesion_productos) {
-        productos_carrito = JSON.parse(sesion_productos);
-    }
+    productos_carrito = JSON.parse(sesion_productos);
 
     const cesta = document.getElementById('total_productos_cesta');
-    cesta.innerText = productos_carrito.length;
-    cesta.classList.remove('no_products');
+    if(sesion_productos && productos_carrito.length > 0) {
+        cesta.innerText = productos_carrito.length;
+        cesta.classList.remove('no_products');
+    } else {
+        cesta.classList.add('no_products');
+    }
 
 </script>
 

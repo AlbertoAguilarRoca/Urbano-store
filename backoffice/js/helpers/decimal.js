@@ -21,7 +21,7 @@
   
   
       // The initial configuration properties of the Decimal constructor.
-      Decimal = {
+     Decimal = {
   
         // These values must be integers within the stated ranges (inclusive).
         // Most of these values can be changed during run-time using `Decimal.config`.

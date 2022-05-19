@@ -9,7 +9,7 @@
 
     <h1 class="carrito_title">Cesta</h1>
 
-    <div class="no_products_msg products_added">
+    <div class="no_products_msg">
         <p>Tu carrito está vacío</p>
     </div>
 
@@ -21,51 +21,6 @@
 
         <div class="carrito_products">
 
-            <div class="carrito_product_detail">
-                <button class="delete_prod"><i class="bi bi-trash3"></i></button>
-                <div class="carrito_prod_img">
-                    <img src="https://images.unsplash.com/photo-1652821173271-c2af1ef81331?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400" alt="">
-                </div>
-
-                <div class="carrito_product_info">
-                    <h2 class="carrito_product_title">Camiseta Otherwise</h2>
-                    <ul>
-                        <li class="carrito_product_list_item">Talla: XS</li>
-                        <li class="carrito_product_list_item">Color: Negro</li>
-                    </ul>
-                    <div class="carrito_prod_cantidad">
-                        <input type="number" max="3" min="1" value="1">
-                    </div>
-                </div>
-
-                <div class="carrito_product_price">
-                    <span>33.00 €</span>
-                </div>
-            </div>
-
-
-            <div class="carrito_product_detail">
-                <button class="delete_prod"><i class="bi bi-trash3"></i></button>
-                <div class="carrito_prod_img">
-                    <img src="https://images.unsplash.com/photo-1652811230783-fa08dec5e21b?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400" alt="">
-                </div>
-
-                <div class="carrito_product_info">
-                    <h2 class="carrito_product_title">Camiseta Left Chest Logo que me compro mi padre</h2>
-                    <ul>
-                        <li class="carrito_product_list_item">Talla: M</li>
-                        <li class="carrito_product_list_item">Color: Azul</li>
-                    </ul>
-                    <div class="carrito_prod_cantidad">
-                        <input type="number" max="3" min="1" value="1">
-                        <span>No disponemos de tanto stock</span>
-                    </div>
-                </div>
-
-                <div class="carrito_product_price">
-                    <span>45.00 €</span>
-                </div>
-            </div>
 
         </div> <!--final carrito products-->
 
@@ -82,12 +37,12 @@
 
             <div class="subtotal_price">
                 <span>Subtotal</span>
-                <span id="sub_price">88.00 €</span>
+                <span id="sub_price"></span>
             </div>
 
             <div class="shipping_price">
                 <span>Envío Estandar</span>
-                <span id="shipping_price">Gratuito</span>
+                <span id="shipping_price"></span>
             </div>
 
             <div class="total_price">
@@ -95,7 +50,7 @@
                     Total
                     <p class="tax_info">(21% IVA incluido)</p>
                 </div>
-                <span id="total_price">88.00 €</span>
+                <span id="total_price"></span>
             </div>
 
 
@@ -146,5 +101,6 @@
 
 
 
-
+<script src="<?php echo "http://" . $_SERVER['SERVER_NAME'] . "/urban/backoffice/js/helpers/decimal.js"; ?>"></script>
+<script type="module" src="<?php echo "http://" . $_SERVER['SERVER_NAME'] . "/urban/js/carrito.js"; ?>"></script>
 <?php require_once __DIR__ . '/./footer.php'; ?>

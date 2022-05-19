@@ -78,10 +78,20 @@ function selectValidation(type, input) {
             return validateDate(input);
         case 'file':
             return validateFileInput(input);
+        case 'politica-datos':
+            return validatePoliticaDatos(input);
 
         default:
             console.error('Error en la validación de un input -> ' + type);
             break;
+    }
+}
+
+const validatePoliticaDatos = (input) => {
+    if(input.checked) {
+        return true;
+    } else {
+        return false;
     }
 }
 
@@ -120,7 +130,7 @@ const validatePassword = (input) => {
 
     //Si está marcado como invitado, la validación no será necesaria
     const invitado = document.getElementById('invitado');
-    if (invitado.checked) {
+    if (invitado && invitado.checked) {
         return true;
     }
 
@@ -344,6 +354,8 @@ const searchElement = (group) => {
         elemento = group.querySelector('.form-select');
     } else if (group.querySelector('.form-color')) {
         elemento = group.querySelector('.form-color');
+    } else if (group.querySelector('.form-checkbox')) {
+        elemento = group.querySelector('.form-checkbox');
     } else if (group.querySelector('.form-select-rules')) {
         elemento = group.querySelector('.form-select-rules');
     } else if (group.querySelector('.form-date')) {
