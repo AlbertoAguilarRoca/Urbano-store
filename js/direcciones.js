@@ -1,12 +1,13 @@
-/* Fichero para controlar las validaciones y consumo de api de las direcciones */
 
-import { formValidation, setMessageInfo } from "../helpers/formValidation.js";
-import { lenthCounterForm, setLengthToInitial } from "../helpers/lengthCounterInput.js";
-import { API_KEY } from "../api/api-key.js";
+
+import { formValidation, setMessageInfo } from "../backoffice/js/helpers/formValidation.js";
+import { lenthCounterForm, setLengthToInitial } from "../backoffice/js/helpers/lengthCounterInput.js";
+import { API_KEY } from "../backoffice/js/api/api-key.js";
+
+console.log('funcionando')
 
 const form = document.getElementById('form-direccion');
 const formGroups = form.querySelectorAll('.form-group');
-const formDelete = document.getElementById('form-delete');
 const provincias = document.getElementById('provincias');
 const localidad = document.getElementById('localidad');
 const checkEmpresa = document.getElementById('empresa');
@@ -34,8 +35,13 @@ form.addEventListener('submit', async (e) => {
         const resp = await sendData(formData);
 
         //Establece el contador de caracteres a 0
-        resp && setLengthToInitial();
-        setMessageInfo(resp, form);
+        if(resp) {
+            window.location.reload();
+        } else {
+            setMessageInfo(resp, form);
+        }
+
+        //resp && setLengthToInitial();
     } else {
         console.log('Formulario con errores');
     }
@@ -45,9 +51,9 @@ form.addEventListener('submit', async (e) => {
 const sendData = async (formData) => {
     /* añado el id de la marca */
     const params = new URLSearchParams(document.location.search);
-    const id = params.get('id');
+    const id = params.get('cliente');
 
-    const resp = await fetch(`http://localhost/urban/backoffice/controllers/DireccionController.php?id=${id}`, {
+    const resp = await fetch(`http://localhost/urban/backoffice/controllers/DireccionFrontController.php?cliente=${id}`, {
         method: 'POST',
         body: formData,
     });
@@ -58,37 +64,6 @@ const sendData = async (formData) => {
     return data;
 }
 
-if (formDelete) {
-    formDelete.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        if (formValidation(formDelete)) {
-            const params = new URLSearchParams(document.location.search);
-            const id = params.get('id');
-            const resp = await fetch(`http://localhost/urban/backoffice/controllers/DireccionController.php?id=${id}`, {
-                method: 'DELETE'
-            });
-
-            const data = await resp.json();
-
-            if (data === true) {
-                window.location = 'http://localhost/urban/backoffice/clientes/direcciones/';
-                console.log('Borrado correcto');
-            } else {
-                alert('Error al borrar: ' + data);
-            }
-
-        } else {
-            console.log('Email con errores.');
-        }
-
-    });
-}
-
-
-checkEmpresa.addEventListener('change', showFormCompany);
-
-/* datos de provincias */
 const getData = async (url) => {
     const peticion = await fetch(url, {
         method: 'GET'
@@ -174,6 +149,7 @@ const capitalizarPrimeraLetra = (str) => {
 
     return palabras.join(" ");
 }
+checkEmpresa.addEventListener('change', showFormCompany);
 
 function showFormCompany() {
     const formCompany = document.getElementById('company-client-info');
@@ -190,7 +166,3 @@ function showFormCompany() {
         formClientGroups[1].removeAttribute('data-required');
     }
 }
-
-//al carga la pagina
-showFormCompany();
-

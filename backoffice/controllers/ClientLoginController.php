@@ -19,7 +19,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if($passwordCheck) {
             //si la contraseña es correcta
-            $clientInfo = $clientManager -> getClientId($email);
+            $id_cliente = $clientManager -> getClientId($email);
+            $clientInfo = [ 'email' => $email, 'password' => $pass, 'id_cliente' => $id_cliente ];
 
             //Guardo en la sesion un array con la info del 
             $controlAcceso -> setUser($clientInfo);

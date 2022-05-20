@@ -24,8 +24,8 @@
             <div class="logo">
                 <a href="http://localhost/urban/">
                     <picture>
-                        <source srcset="src/img/logo-face.svg" media="(max-width: 1000px)" type="image/svg+xml">
-                        <img src="src/img/logo.svg" alt="logo">
+                        <source srcset="http://localhost/urban/src/img/logo-face.svg" media="(max-width: 1000px)" type="image/svg+xml">
+                        <img src="http://localhost/urban/src/img/logo.svg" alt="logo">
                     </picture>
                 </a>
             </div>
@@ -35,10 +35,25 @@
                 <i class="bi bi-search"></i>
             </div>
 
-            <div class="sign_in">
+            <?php 
+                if(isset($_SESSION['cliente']['id_cliente'])) {
+            ?>
+              <div class="client_menu">
+                    <span class="cliente_menu" id="display_menu_cliente">manolo@gmail.com</span>
 
-                <a href='http://localhost/urban/login.php'><span class="icon_person"><i class="bi bi-person"></i></span><span class="sign_in_text">Iniciar sesión</span></a>
-            </div>
+                    <ul class="menu_client_list">
+                        <li class="menu_client_list_item"><a href="http://localhost/urban/perfil/direcciones.php?cliente=<?php echo $_SESSION['cliente']['id_cliente']; ?>">Mis direcciones</a></li>
+                        <li class="menu_client_list_item"><a href="http://localhost/urban/perfil/pedidos.php?cliente=<?php echo $_SESSION['cliente']['id_cliente']; ?>">Mis pedidos</a></li>
+                    </ul>
+                </div>  
+            <?php    } else {
+            ?>
+                <div class="sign_in">
+                    <a href='http://localhost/urban/login.php'><span class="icon_person"><i class="bi bi-person"></i></span><span class="sign_in_text">Iniciar sesión</span></a>
+                </div>
+            <?php
+            }
+            ?>
 
             <div class="cesta_compra">
                 <a href="http://localhost/urban/carrito.php">
@@ -122,7 +137,7 @@
                         <a href="#">Nueva colección <br>Flower Around</a>
                         <i class="bi bi-arrow-right icon"></i>
                     </div>
-                    <img src="src/img/foto-hombre.jpeg" alt="heritage product">
+                    <img src="http://localhost/urban/src/img/foto-hombre.jpeg" alt="heritage product">
                 </div>
     
             </div>
@@ -191,7 +206,7 @@
                         <a href="#">Nueva colección <br>Flower Around</a>
                         <i class="bi bi-arrow-right icon"></i>
                     </div>
-                    <img src="src/img/foto-mujer.jpeg" alt="heritage product">
+                    <img src="http://localhost/urban/src/img/foto-mujer.jpeg" alt="heritage product">
                 </div>
             </div> 
 
@@ -232,7 +247,7 @@
                         <a href="#">Nueva colección <br>Zapatillas Vans</a>
                         <i class="bi bi-arrow-right icon"></i>
                     </div>
-                    <img src="src/img/foto-kid.jpeg" alt="heritage product">
+                    <img src="http://localhost/urban/src/img/foto-kid.jpeg" alt="heritage product">
                 </div>
             </div> 
 
@@ -261,7 +276,7 @@
                         <a href="#">Nueva colección <br>Zapatillas Vans</a>
                         <i class="bi bi-arrow-right icon"></i>
                     </div>
-                    <img src="src/img/foto-skate.jpeg" alt="heritage product">
+                    <img src="http://localhost/urban/src/img/foto-skate.jpeg" alt="heritage product">
                 </div>
             </div>
 
@@ -284,7 +299,7 @@
                         <a href="#">Nueva colección <br>Zapatillas Vans</a>
                         <i class="bi bi-arrow-right icon"></i>
                     </div>
-                    <img src="src/img/foto-snow.jpeg" alt="heritage product">
+                    <img src="http://localhost/urban/src/img/foto-snow.jpeg" alt="heritage product">
                 </div>
             </div>
 

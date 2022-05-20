@@ -55,6 +55,16 @@ require_once __DIR__ .'/../connection/Db.php';
             return $data;
         }
 
+        function getDireccionesByClient($id_cliente) {
+            $sql = "SELECT es_empresa, nif, razon_social, direccion, direccion2, codigo_postal, provincia, localidad, telefono FROM direccion 
+            WHERE id_cliente = '$id_cliente' AND guardada = 1";
+
+            $resultado = $this -> getConnection() -> query($sql);
+            return $resultado;
+        }
+
+
+
         function getAllDireccionesLength() {
             $sql = "SELECT count(id) as total FROM direccion";
 
@@ -75,9 +85,9 @@ require_once __DIR__ .'/../connection/Db.php';
             return $data['total'];
         }
 
-        public function insert($id_cliente, $nif, $razon_social, $es_empresa, $direccion, $direccion2, $codigo_postal, $provincia, $localidad, $telefono) {
-            $sql = "INSERT INTO direccion(id_cliente, nif, razon_social, es_empresa, direccion, direccion2, codigo_postal, provincia, localidad, telefono) 
-            VALUES ('$id_cliente', '$nif', '$razon_social', $es_empresa, '$direccion', '$direccion2', $codigo_postal, '$provincia', '$localidad', '$telefono')";
+        public function insert($id_cliente, $nif, $razon_social, $es_empresa, $direccion, $direccion2, $codigo_postal, $provincia, $localidad, $telefono, $guardada) {
+            $sql = "INSERT INTO direccion(id_cliente, nif, razon_social, es_empresa, direccion, direccion2, codigo_postal, provincia, localidad, telefono, guardada) 
+            VALUES ('$id_cliente', '$nif', '$razon_social', $es_empresa, '$direccion', '$direccion2', $codigo_postal, '$provincia', '$localidad', '$telefono', $guardada)";
 
             if ($this -> getConnection() -> query($sql) === TRUE) {
                 return true;

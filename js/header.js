@@ -4,6 +4,7 @@ const menu_burger = document.getElementById('menu_burger');
 const header = document.getElementById('header');
 const nav_item = document.querySelectorAll('.nav_head_item');
 const nav = document.getElementById('nav');
+const menu_cliente = document.getElementById('display_menu_cliente');
 
 menu_burger.addEventListener('click', () => {
 
@@ -28,3 +29,10 @@ nav_item.forEach(item => {
 
     });
 });
+
+if(menu_cliente) {
+    menu_cliente.addEventListener('click', () => {
+        const lista = document.querySelector('.menu_client_list');
+        lista.classList.toggle('display_menu_client');
+    });
+}

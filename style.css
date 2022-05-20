@@ -253,6 +253,40 @@ p {
     right: 10px;
 }
 
+.client_menu {
+    position: relative;
+}
+
+.cliente_menu {
+    font-size: 16px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.menu_client_list {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    border-radius: 5px;
+    box-shadow: 0px 0px 20px 2px rgb(0 0 0 / 15%);
+    background-color: white;
+    z-index: 999;
+    display: none;
+}
+
+.menu_client_list.display_menu_client {
+    display: block;
+}
+
+.menu_client_list_item a {
+    padding: 15px 30px;
+    display: block;
+    white-space: nowrap;
+}
+
+.menu_client_list_item a:hover {
+    background-color: var(--grey-light-bg);
+}
 
 /*! ************************************************************************************* CATEGORIAS ************************************************************************************* */
 
@@ -1193,9 +1227,6 @@ input[type='password'].form-input {
 }
 
 
-
-
-
 .form-group.error-form .form-input {
     border-color: var(--color-error);
 }
@@ -1225,6 +1256,180 @@ input[type='password'].form-input {
     font-size: 20px;
     border: none;
     background-color: transparent;
+    cursor: pointer;
+}
+
+
+/*! ******************************************************************************************************************************** DIRECCIONES ******************************************************************************************************************************** */
+.client_content {
+    padding: 15px;
+    position: relative;
+}
+
+.client_logout {
+    border: none;
+    border-radius: 5px;
+    background-color: black;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.client_logout a {
+    padding: 15px 20px;
+    color: white;
+    display: block;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.client_data {
+    padding: 20px 0;
+}
+
+.client_data_list {
+    margin: 15px 0;
+    padding: 15px;
+    background-color: var(--grey-light-bg);
+    max-width: 50%;
+}
+
+.client_data_list_item {
+    font-size: 14px;
+    color: var(--grey-light);
+}
+
+.client_add_direction h2 {
+    margin: 0;
+}
+
+.form-select {
+    display: block;
+    max-width: 35%;
+    width: 100%;
+    height: 30px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    padding: 5px;
+}
+
+.form-company-client {
+    display: none;
+    overflow: hidden;
+    transition: all 1s ease-in-out;
+}
+
+.form-company-client.show-form {
+    display: block !important;
+}
+
+/*! ************************************************************************************************************************************** PASARELA PAGO ************************************************************************************************************************************** */
+
+.pasarela_header {
+    background-color: white;
+    padding: 30px 10px;
+}
+
+.pasarela_header_content {
+    max-width: 1250px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.logo_pasarela {
+    flex-basis: 250px;
+}
+
+.pasarela_estados {
+    padding: 15px;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.pasarela_estados .estado_numero {
+    padding: 10px;
+    background-color: var(--grey-light);
+    color: white;
+}
+
+.pasarela_estados.activa .estado_numero {
+    background-color: black;
+}
+
+.pasarela_estados .estado_texto {
+    text-transform: uppercase;
+    color: var(--grey-light);
+}
+
+.pasarela_estados.activa .estado_texto {
+    color: black;
+}
+
+.pasarela_content {
+    background-color: var(--grey-light-bg);
+    padding: 10px;
+}
+
+.pasarela_content_row {
+    display: flex;
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+.sing_in_area {
+    padding: 5px;
+    display: flex;
+}
+
+.sign_in_pasarela {
+    border: none;
+    border-radius: 5px;
+    background-color: black;
+    flex-grow: 1;
+    flex-basis: 250px;
+}
+
+.sign_in_pasarela a {
+    padding: 15px 20px;
+    color: white;
+    text-transform: uppercase;
+    display: block;
+    font-weight: 700;
+}
+
+.sing_in_text_pasarela {
+    padding-left: 15px;
+}
+
+.sing_in_text_pasarela a {
+    text-decoration: underline;
+    font-weight: 700;
+}
+
+.pasarela_title {
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.bloque_1.no_display,
+.bloque_2.no_display {
+    display: none;
+}
+
+.direccion_facturacion_form.no_display {
+    display: none;
+}
+
+.back_bloque_1 {
+    border: none;
+    background-color: transparent;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #D73F0E;
     cursor: pointer;
 }
 

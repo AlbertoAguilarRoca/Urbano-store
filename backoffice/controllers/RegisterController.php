@@ -1,12 +1,15 @@
 <?php
 
+require_once __DIR__.'/../../security/controlAcceso.php';
+$controlAcceso = new ControlAcceso();
+
 require_once __DIR__ . '/../model/managers/ClientManager.php';
 include_once __DIR__ . '/../helpers/validateData.php';
 
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 $clientmanager = new ClientManager();
 
-$nombre = $apellido1 = $apellido2 = $email = $pass = $fecha_nacimiento = $subscrito = $invitado = $registrado = $ultima_visita = $genero = '';
+$nombre = $apellido1 = $apellido2 = $email = $passToSesion = $pass = $fecha_nacimiento = $subscrito = $invitado = $registrado = $ultima_visita = $genero = '';
 
 if($requestMethod == 'POST') {
 
@@ -45,6 +48,7 @@ if($requestMethod == 'POST') {
         //Si no es invitado, guardo la password
         if (isset($_POST['password']) && !empty($_POST['password'])) {
             $pass = validateData($_POST['password']);
+            $passToSesion = $pass;
             $pass = password_hash($pass, PASSWORD_DEFAULT);
         }
     }
@@ -58,6 +62,12 @@ if($requestMethod == 'POST') {
 
    
     $resp = $clientmanager -> insert($nombre, $apellido1, $apellido2, $email, $pass, $fecha_nacimiento, $subscrito, $invitado, $registrado, $ultima_visita, $genero);
+
+    if($resp == TRUE) {
+        $clientInfo = [ 'email' => $email, 'password' => $passToSesion ];
+        //Guardo en la sesion un array con la info del 
+        $controlAcceso -> setUser($clientInfo);
+    }
 
     echo json_encode($resp);
     

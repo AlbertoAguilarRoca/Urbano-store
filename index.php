@@ -1,18 +1,15 @@
-
 <?php 
     include_once __DIR__ . './security/ControlAcceso.php';
     $control = new ControlAcceso();
 
     require_once __DIR__ . '/./head.php'; 
-
-    
 ?>
 
 
 <?php 
 
-    if(isset($_SESSION['cliente'])) {
-        echo 'Id del usuario: '.$_SESSION['cliente'];
+    if(isset($_SESSION['cliente']['id_cliente'])) {
+        echo 'Id del usuario: '.$_SESSION['cliente']['id_cliente'];
     }
 
 ?>

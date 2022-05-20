@@ -1,5 +1,8 @@
 <?php 
 
+    include_once __DIR__ . './security/ControlAcceso.php';
+    $control = new ControlAcceso();
+
     require_once __DIR__ . '/./head.php'; 
     include_once __DIR__ . '/./backoffice/model/managers/ColorManager.php'; 
     include_once __DIR__ . '/./backoffice/model/managers/SizeManager.php';
