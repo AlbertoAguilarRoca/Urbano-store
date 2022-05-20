@@ -1375,8 +1375,14 @@ input[type='password'].form-input {
 
 .pasarela_content_row {
     display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
     max-width: 1250px;
     margin: 0 auto;
+}
+
+.pasarela_content_info {
+    flex-grow: 1;
 }
 
 .sing_in_area {
@@ -1411,6 +1417,7 @@ input[type='password'].form-input {
 
 .pasarela_title {
     margin: 0;
+    padding: 10px 0;
     text-transform: uppercase;
 }
 
@@ -1432,6 +1439,18 @@ input[type='password'].form-input {
     color: #D73F0E;
     cursor: pointer;
 }
+
+.carrito_pay.pasarela {
+    background-color: white;
+    margin-left: auto;
+    flex-basis: 30%;
+}
+
+.direction_client {
+    padding: 10px;
+}
+
+
 
 /* loader */
 .loading {

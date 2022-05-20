@@ -61,7 +61,7 @@ if($requestMethod == 'POST') {
 
         echo json_encode($resp);
     } else {
-        $resp = $direccionManager -> insert($id_cliente, $nif, $razon_social, $es_empresa, $direccion1, $direccion2, $codigo_postal, $provincia, $localidad, $telefono);
+        $resp = $direccionManager -> insert($id_cliente, $nif, $razon_social, $es_empresa, $direccion1, $direccion2, $codigo_postal, $provincia, $localidad, $telefono, 1);
 
         echo json_encode($resp);
     }
@@ -70,6 +70,12 @@ if($requestMethod == 'POST') {
 } else if($requestMethod == 'DELETE') {
     $id = $_GET['id'];
     $resp = $direccionManager -> delete($id);
+
+    echo json_encode($resp);
+} else if($requestMethod == 'GET') {
+    $id = $_GET['id'];
+
+    $resp = $direccionManager -> getDireccionById($id);
 
     echo json_encode($resp);
 }

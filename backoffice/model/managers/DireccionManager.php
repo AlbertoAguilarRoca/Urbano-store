@@ -55,8 +55,16 @@ require_once __DIR__ .'/../connection/Db.php';
             return $data;
         }
 
+        function getIdByDireccion($direccion) {
+            $sql = "SELECT id FROM direccion WHERE direccion = '$direccion'";
+
+            $resultado = $this -> getConnection() -> query($sql);
+            $data = $resultado -> fetch_assoc();
+            return $data['id'];
+        }
+
         function getDireccionesByClient($id_cliente) {
-            $sql = "SELECT es_empresa, nif, razon_social, direccion, direccion2, codigo_postal, provincia, localidad, telefono FROM direccion 
+            $sql = "SELECT id, es_empresa, nif, razon_social, direccion, direccion2, codigo_postal, provincia, localidad, telefono FROM direccion 
             WHERE id_cliente = '$id_cliente' AND guardada = 1";
 
             $resultado = $this -> getConnection() -> query($sql);

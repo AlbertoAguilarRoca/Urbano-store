@@ -60,7 +60,7 @@ require_once __DIR__ . '/./head.php';
 
 
             <div class="pay_btn_box">
-                <button class="pay_btn">Realizar pago</button>
+                <button class="pay_btn"><a href="http://localhost/urban/pasarela.php">Realizar pago</a></button>
             </div>
 
             <div class="shipping_info">
