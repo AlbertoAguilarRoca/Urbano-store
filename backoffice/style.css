@@ -1382,6 +1382,109 @@ not-available] ~ .status-no-available {
 
 /*! ************************************************************************************************************ FIN FORMULARIOS ************************************************************************************************************ */
 
+/*! ************************************************************************************************************ PEDIDOS ************************************************************************************************************ */
+
+.estado_pedido[data-estado='Confirmado'] {
+    padding: 2px;
+    background-color: #1955b539;
+    color: var(--color-primary-darker);
+    border-radius: 5px;
+}
+
+.estado_pedido[data-estado='En preparación'] {
+    padding: 2px;
+    background-color: #5019b539;
+    color: #5019b5;
+    border-radius: 5px;
+}
+
+.estado_pedido[data-estado='Preparado'] {
+    padding: 2px;
+    background-color: #1998b539;
+    color: #128597;
+    border-radius: 5px;
+}
+
+.estado_pedido[data-estado='Enviado'] {
+    padding: 2px;
+    background-color: #1945b539;
+    color: #1300c2;
+    border-radius: 5px;
+}
+
+.estado_pedido[data-estado='Entregado'] {
+    padding: 2px;
+    background-color: #36b51939;
+    color: #19b567;
+    border-radius: 5px;
+}
+
+
+.estado_pedido[data-estado='Cancelado'] {
+    padding: 2px;
+    background-color: #ff000039;
+    color: #db3131;
+    border-radius: 5px;
+}
+
+.estado_pedido[data-estado='Devuelto'] {
+    padding: 2px;
+    background-color: #ff880039;
+    color: #db9d31;
+    border-radius: 5px;
+}
+
+.pedido_content_row {
+    display: flex;
+    flex-direction: column;
+}
+
+.pedido_content_col {
+    flex-grow: 1;
+}
+
+.pedido_area {
+    padding: 20px 15px 20px 0;
+}
+
+#form-pedido select.form-select {
+    max-width: 200px !important;
+    margin-bottom: 15px;
+}
+
+#form-pedido select.form-select option:first-child {
+    text-align: left;
+}
+
+.pedido_area_title {
+    margin-bottom: 10px;
+}
+
+.pedido_list_item {
+    padding: 2px 0;
+}
+
+.pedido_area_btn {
+    margin: 10px 0;
+    border: none;
+    background-color: var(--color-primary);
+    border-radius: 5px;
+}
+
+.pedido_area_btn a {
+    padding: 10px 20px;
+    display: block;
+    color: white;
+    font-size: 16px;
+}
+
+.prod_pedido_list {
+    padding: 20px;
+    background-color: var(--bg-secundary-darker);
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
 /*! ************************************************************************************************************ REGLAS COMERCIALES ************************************************************************************************************ */
 
 .conditions-included.empty {
@@ -1564,6 +1667,10 @@ not-available] ~ .status-no-available {
 }
 .product-form-row > .product-form-col:last-child {
     padding-left: 10px;
+}
+
+.pedido_content_row {
+    flex-direction: row;
 }
 
 

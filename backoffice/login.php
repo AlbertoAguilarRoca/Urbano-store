@@ -36,7 +36,7 @@
         <div class="login-container">
 
             <div class="login-logo">
-                <img src="https://via.placeholder.com/150x80?text=Logo" alt="Logo Urban">
+                <img src="http://localhost/urban/src/img/logo.svg" alt="Logo Urbano">
             </div>
 
             <div class="login-box">

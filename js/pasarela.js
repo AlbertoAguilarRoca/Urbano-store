@@ -148,7 +148,8 @@ function calcSubTotal() {
         const producto = {
             ref: p.ref,
             cantidad: p.cantidad,
-            talla_id: p.talla_id
+            talla_id: p.talla_id,
+            talla_text: p.talla_text
         }
 
         productos.push(producto);

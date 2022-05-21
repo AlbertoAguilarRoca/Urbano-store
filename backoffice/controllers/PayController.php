@@ -17,7 +17,6 @@ $pedidoManager = new PedidoManager();
 $id_cliente = $id_direccion = $id_direccion_fac = $nif = $razon_social = $es_empresa = $direccion1 = $direccion2 = $codigo_postal = $provincia = $localidad = $telefono = $nombre = $apellido1 = $apellido2 = $email = $dir_facturacion = $direccion_fac = $direccion2_fac = $codigo_postal_fac = $provincia_fac = $localidad_fac = $telefono_fac = '';
 
 $productos = [];
-$prueba = 'Todo mal';
 /**
  * CASO DE QUE EL CLIENTE ESTE REGISTRADO
  * - Recibo el id del cliente por la sesion
@@ -115,7 +114,7 @@ if($requestMethod == 'POST') {
             $resp = $direccionManager -> insert($id_cliente, $nif, $razon_social, $es_empresa, $direccion_fac, $direccion2_fac, $codigo_postal_fac, $provincia_fac, $localidad_fac, $telefono_fac, 0);
 
             $id_direccion_fac = $direccionManager -> getIdByDireccion($direccion_fac);
-            $prueba = 'Todo deberia haber ido bien';
+
             if($resp != TRUE) {
                 echo json_encode($resp);
                 exit;
@@ -198,7 +197,7 @@ if($requestMethod == 'POST') {
     $productos = json_decode($_POST['productos'], true);
 
     for ($i=0; $i < count($productos); $i++) { 
-        $resp = $pedidoManager -> insertProductos($id_pedido, $productos[$i]['ref'], $productos[$i]['cantidad']);
+        $resp = $pedidoManager -> insertProductos($id_pedido, $productos[$i]['ref'], $productos[$i]['cantidad'], $productos[$i]['talla_text']);
     }
 
 

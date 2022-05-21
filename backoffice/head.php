@@ -21,7 +21,7 @@
             <div class="menu-icons-fixed">
                 <div class="menu-icons-header">
                     <div id="menu-burger" class="menu-burger">
-                        <i class="bi bi-emoji-laughing"></i>
+                        <img src="http://localhost/urban/src/img/logo-face.svg" alt="Logo urbano">
                     </div>
                 </div>
 
@@ -97,7 +97,7 @@
                     <div class="menu-nav-content" id="catalogo">
 
                         <div class="menu-dashboard">
-                            <a href="#">Dashboard</a>
+                            <a href="<?php echo "http://".$_SERVER['SERVER_NAME']."/urban/backoffice/"; ?>">Dashboard</a>
                         </div>
 
                         <div class="menu-nav-content-group">
@@ -107,7 +107,7 @@
                             </div>
 
                             <ul class="menu-nav-content-group-list">
-                                <li><a href="#">Pedidos</a></li>
+                                <li><a href="<?php echo "http://".$_SERVER['SERVER_NAME']."/urban/backoffice/pedidos/"; ?>">Pedidos</a></li>
                                 <li><a href="#">Facturas</a></li>
                             </ul>
                         </div>
